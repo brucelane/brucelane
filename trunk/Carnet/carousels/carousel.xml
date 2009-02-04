@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<carousels>
-	<rubrique id="0" nom="Notre catalogue:" fichier="aucun" />
-	<rubrique id="1" nom="Arts et culture" fichier="ArtsCulture.xml" />
-	<rubrique id="2" nom="Paysage" fichier="paysage.xml" />
-	<rubrique id="3" nom="Ville" fichier="ville.xml" />
-</carousels>
