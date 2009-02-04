@@ -2,21 +2,10 @@
 <!--
 /////////////////////////////////////////////////////////////
 // Auteur Bruce LANE
-// Version du 19 janvier 2009
-// donner source 
-// TODO texte sur stylo
-// TODO taille police libre + xml
-// TODO combo Taille texte mauvaise valeur
-// TODO zone texte alias
-// TODO bitmap alias
-// TODO pb init couleur paysage et kraft
-// TODO texte centré verticalement sans photo full +++
-// afficher la photo sur le stylo dans l'autre sens
-// 2 traits apparaissent sur la longueur photo
-// on peut faire plus arrondi
-// zone texte (photo small) => elargir la zone texte (laisser 30 pixel de chaque cote par exemlpe)
-// le texte sur stylo a regler lorsqu'il est vertical, essayez de mieux le centrer
+// Version du 4 fevrier 2009
 // 
+// Penser à enlever dans proprietes du projet:
+// -use-network=false si besoin pour deploiement
 /////////////////////////////////////////////////////////////
 -->
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
