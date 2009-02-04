@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<capuchon>
+	
+<!-- coordonnees mapping full -->
+	<variable nom="tlxFull" valeur="50" description="top left x" />
+	<variable nom="tlyFull" valeur="54" description="top left y" />
+	<variable nom="trxFull" valeur="169" description="top right x " />
+	<variable nom="tryFull" valeur="84" description="top right y " />
+	<variable nom="blxFull" valeur="40" description="bottom left x " />
+	<variable nom="blyFull" valeur="89" description="bottom left y " />
+	<variable nom="brxFull" valeur="155" description="bottom right x " />
+	<variable nom="bryFull" valeur="120" description="bottom right y " />
+<!-- coordonnees mapping medium -->
+	<variable nom="tlxMedium" valeur="50" description="top left x " />
+	<variable nom="tlyMedium" valeur="54" description="top left y " />
+	<variable nom="trxMedium" valeur="169" description="top right x " />
+	<variable nom="tryMedium" valeur="84" description="top right y " />
+	<variable nom="blxMedium" valeur="40" description="bottom left x " />
+	<variable nom="blyMedium" valeur="89" description="bottom left y " />
+	<variable nom="brxMedium" valeur="155" description="bottom right x " />
+	<variable nom="bryMedium" valeur="120" description="bottom right y " />
+	
+<!-- coordonnees mapping texte -->
+	<variable nom="largTxt" valeur="120" description="largeur du texte" />
+	<variable nom="hautTxt" valeur="50" description="hauteur du texte" />
+	
+<!-- seuil detection couleur -->
+	<variable nom="seuil" valeur="0X77" description="seuil" />
+	<variable nom="alpha" valeur="1" description="alpha couleur appliquée" />
+	<variable nom="blurImage" valeur="2" description="flou image 0=pas de flou" />
+	<variable nom="blurTexte" valeur="2" description="flou texte 0=pas de flou" />
+
+<!-- image bitmap sur laquelle on construit -->
+	<variable nom="chemin" valeur="images/materiaux/capuchon.png" description="image" />
+
+</capuchon>
+
+

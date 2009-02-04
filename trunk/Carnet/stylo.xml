@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<stylo>
+<!-- coordonnees mapping image -->
+	<variable nom="tlx" valeur="59" description="top left x " />
+	<variable nom="tly" valeur="42" description="top left y " />
+	<variable nom="trx" valeur="345" description="top right x " />
+	<variable nom="try" valeur="120" description="top right y " />
+	<variable nom="blx" valeur="47" description="bottom left x " />
+	<variable nom="bly" valeur="75" description="bottom left y " />
+	<variable nom="brx" valeur="337" description="bottom right x " />
+	<variable nom="bry" valeur="154" description="bottom right y" />
+<!-- coordonnees mapping full -->
+	<variable nom="tlxFull" valeur="0" description="top left x" />
+	<variable nom="tlyFull" valeur="0" description="top left y" />
+	<variable nom="trxFull" valeur="382" description="top right x " />
+	<variable nom="tryFull" valeur="0" description="top right y " />
+	<variable nom="blxFull" valeur="0" description="bottom left x " />
+	<variable nom="blyFull" valeur="177" description="bottom left y " />
+	<variable nom="brxFull" valeur="382" description="bottom right x " />
+	<variable nom="bryFull" valeur="177" description="bottom right y " />
+<!-- coordonnees mapping medium -->
+	<variable nom="tlxMedium" valeur="41" description="top left x " />
+	<variable nom="tlyMedium" valeur="12" description="top left y " />
+	<variable nom="trxMedium" valeur="348" description="top right x " />
+	<variable nom="tryMedium" valeur="-10" description="top right y " />
+	<variable nom="blxMedium" valeur="56" description="bottom left x " />
+	<variable nom="blyMedium" valeur="192" description="bottom left y " />
+	<variable nom="brxMedium" valeur="343" description="bottom right x " />
+	<variable nom="bryMedium" valeur="167" description="bottom right y " />
+<!-- coordonnees mapping small -->
+	<variable nom="tlxSmall" valeur="153" description="top left x " />
+	<variable nom="tlySmall" valeur="134" description="top left y " />
+	<variable nom="trxSmall" valeur="253" description="top right x " />
+	<variable nom="trySmall" valeur="112" description="top right y " />
+	<variable nom="blxSmall" valeur="206" description="bottom left x " />
+	<variable nom="blySmall" valeur="199" description="bottom left y " />
+	<variable nom="brxSmall" valeur="308" description="bottom right x " />
+	<variable nom="brySmall" valeur="173" description="bottom right y " />
+	
+<!-- seuil detection couleur -->
+	<variable nom="seuil" valeur="0X77" description="seuil" />
+	<variable nom="alpha" valeur="1" description="alpha couleur appliquée" />
+	<variable nom="angle" valeur="285" description="angle image appliquée" />
+	<variable nom="blurImage" valeur="2" description="flou image 0=pas de flou" />
+	<variable nom="blurTexte" valeur="0" description="pas de texte" />
+
+<!-- image bitmap sur laquelle on construit -->
+	<variable nom="chemin" valeur="images/materiaux/stylocorps.png" description="image" />
+
+</stylo>
+
+
