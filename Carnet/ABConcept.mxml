@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/////////////////////////////////////////////////////////////
+// Auteur Bruce LANE
+// Version du 19 janvier 2009
+// donner source 
+// TODO texte sur stylo
+// TODO taille police libre + xml
+// TODO combo Taille texte mauvaise valeur
+// TODO zone texte alias
+// TODO bitmap alias
+// TODO pb init couleur paysage et kraft
+// TODO texte centré verticalement sans photo full +++
+// afficher la photo sur le stylo dans l'autre sens
+// 2 traits apparaissent sur la longueur photo
+// on peut faire plus arrondi
+// zone texte (photo small) => elargir la zone texte (laisser 30 pixel de chaque cote par exemlpe)
+// le texte sur stylo a regler lorsqu'il est vertical, essayez de mieux le centrer
+// 
+/////////////////////////////////////////////////////////////
+-->
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:flashcomps="flashcomps.*" 
+	xmlns:ns1="*" 
+	layout="absolute" 
+    pageTitle="Stickers"
+    preloader="libs.Chargement"
+    preinitialize="preInit()"
+    creationComplete="created()"
+	width="950" height="615"  
+	 currentState="stateEtape1">
+	<mx:states>
+		<mx:State name="stateCarousel">
+			<mx:SetProperty target="{panneauGauche}" name="height" value="220"/>
+			<mx:SetProperty target="{panneauQuatre}" name="height" value="220"/>
+			<mx:SetProperty target="{panneauStylo}" name="height" value="220"/>
+			<mx:RemoveChild target="{troisD}"/>
+			<mx:SetProperty target="{panelCarousel}" name="width" value="900"/>
+			<mx:SetProperty target="{panelCarousel}" name="height" value="350"/>
+			<mx:SetProperty target="{panelCarousel}" name="visible" value="true"/>
+			<mx:SetProperty target="{footerACB}" name="visible" value="false"/>
+			<mx:SetProperty target="{panneauGauche}" name="visible" value="true"/>
+			<mx:SetProperty target="{panneauQuatre}" name="visible" value="false"/>
+			<mx:SetProperty target="{panneauStylo}" name="visible" value="false"/>
+		</mx:State>
+		<mx:State name="stateCarouselQuat">
+			<mx:SetProperty target="{panneauGauche}" name="height" value="220"/>
+			<mx:SetProperty target="{panneauQuatre}" name="height" value="220"/>
+			<mx:SetProperty target="{panneauStylo}" name="height" value="220"/>
+			<mx:RemoveChild target="{troisD}"/>
+			<mx:SetProperty target="{panelCarousel}" name="width" value="900"/>
+			<mx:SetProperty target="{panelCarousel}" name="height" value="350"/>
+			<mx:SetProperty target="{panelCarousel}" name="visible" value="true"/>
+			<mx:SetProperty target="{footerACB}" name="visible" value="false"/>
+			<mx:SetProperty target="{panneauGauche}" name="visible" value="false"/>
+			<mx:SetProperty target="{panneauQuatre}" name="visible" value="true"/>
+			<mx:SetProperty target="{panneauStylo}" name="visible" value="false"/>
+		</mx:State>
+		<mx:State name="stateCarouselStylo">
+			<mx:SetProperty target="{panneauGauche}" name="height" value="220"/>
+			<mx:SetProperty target="{panneauQuatre}" name="height" value="220"/>
+			<mx:SetProperty target="{panneauStylo}" name="height" value="220"/>
+			<mx:RemoveChild target="{troisD}"/>
+			<mx:SetProperty target="{panelCarousel}" name="width" value="900"/>
+			<mx:SetProperty target="{panelCarousel}" name="height" value="350"/>
+			<mx:SetProperty target="{panelCarousel}" name="visible" value="true"/>
+			<mx:SetProperty target="{footerACB}" name="visible" value="false"/>
+			<mx:SetProperty target="{panneauGauche}" name="visible" value="false"/>
+			<mx:SetProperty target="{panneauQuatre}" name="visible" value="false"/>
+			<mx:SetProperty target="{panneauStylo}" name="visible" value="true"/>
+		</mx:State>
+		<mx:State name="stateEtape1">
+			<mx:SetProperty target="{panneauQuatre}" name="visible" value="false"/>
+			<mx:SetProperty target="{panneauGauche}" name="visible" value="true"/>
+			<mx:SetProperty target="{panneauStylo}" name="visible" value="false"/>
+			<mx:SetProperty target="{couv}" name="visible" value="true"/>
+			<mx:SetProperty target="{quat}" name="visible" value="false"/>
+			<mx:SetProperty target="{stylo}" name="visible" value="false"/>
+			<mx:SetProperty target="{cap}" name="visible" value="false"/>
+		</mx:State>
+		<mx:State name="stateEtape2">
+			<mx:SetProperty target="{panneauQuatre}" name="visible" value="true"/>
+			<mx:SetProperty target="{panneauGauche}" name="visible" value="false"/>
+			<mx:SetProperty target="{panneauStylo}" name="visible" value="false"/>
+			<mx:SetProperty target="{couv}" name="visible" value="false"/>
+			<mx:SetProperty target="{quat}" name="visible" value="true"/>
+			<mx:SetProperty target="{stylo}" name="visible" value="false"/>
+			<mx:SetProperty target="{cap}" name="visible" value="false"/>
+		</mx:State>
+		<mx:State name="stateEtape3">
+			<mx:SetProperty target="{panneauQuatre}" name="visible" value="false"/>
+			<mx:SetProperty target="{panneauGauche}" name="visible" value="false"/>
+			<mx:SetProperty target="{panneauStylo}" name="visible" value="true"/>
+			<mx:SetProperty target="{couv}" name="visible" value="false"/>
+			<mx:SetProperty target="{quat}" name="visible" value="false"/>
+			<mx:SetProperty target="{stylo}" name="visible" value="true"/>
+			<mx:SetProperty target="{cap}" name="visible" value="true"/>
+		</mx:State>
+		<mx:State name="stateVoir">
+			<mx:SetProperty target="{panneauQuatre}" name="visible" value="false"/>
+			<mx:SetProperty target="{panneauGauche}" name="visible" value="false"/>
+			<mx:SetProperty target="{panneauStylo}" name="visible" value="false"/>
+			<mx:SetProperty target="{couv}" name="visible" value="true"/>
+			<mx:SetProperty target="{quat}" name="visible" value="false"/>
+			<mx:SetProperty target="{stylo}" name="visible" value="true"/>
+			<mx:SetProperty target="{cap}" name="visible" value="true"/>
+			<mx:SetProperty target="{canvasTitre}" name="visible" value="false"/>
+			<mx:SetProperty target="{canvasParam}" name="visible" value="false"/>
+			<mx:SetProperty target="{canvasParam}" name="width" value="100"/>
+			<mx:SetProperty target="{couv}" name="x" value="80"/>
+			<mx:SetProperty target="{couv}" name="y" value="-12"/>
+			<mx:SetProperty target="{cap}" name="x" value="-15"/>
+			<mx:SetProperty target="{cap}" name="y" value="247"/>
+			<mx:SetProperty target="{stylo}" name="x" value="96"/>
+			<mx:SetProperty target="{stylo}" name="y" value="293"/>
+		</mx:State>
+	</mx:states>
+<mx:Script source="Main.as" />
+
+<mx:ApplicationControlBar id="applControlBar" dock="true">	
+	<mx:Label text="La couverture" id="titreEtape" color="#ECEE1E" width="332" textAlign="center" fontWeight="bold" fontSize="16"/>
+	<mx:Label text="Personnaliser:" color="#FFFFFF" width="150" textAlign="center" fontWeight="bold" fontSize="16"/>
+	<mx:Button styleName="acbButton" click="changeEtape(1)" label="la couverture" id="etape1" selected="true" cornerRadius="10"/>
+	<mx:Button styleName="acbButton" click="changeEtape(2)" label="le dos du carnet" id="etape2" cornerRadius="10"/>	
+	<mx:Button styleName="acbButton" click="changeEtape(3)" label="le stylo" id="etape3" cornerRadius="10"/>
+</mx:ApplicationControlBar>
+<mx:VBox width="950">
+	<mx:HBox width="948" backgroundColor="#ffffff" >
+	<mx:Canvas  width="314" horizontalScrollPolicy="off" verticalScrollPolicy="off" id="canvasParam">
+		<!-- Canvas couverture -->
+		<mx:Canvas x="0" y="0" width="312" height="503" backgroundColor="#f2f2f2" id="panneauGauche"  horizontalScrollPolicy="off" verticalScrollPolicy="off">
+			<mx:VBox width="311" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+				<mx:Canvas width="313" height="100%" id="canvas1" backgroundColor="#AB040C">
+					<mx:Label id="l1" x="10" y="4" text="Sélectionnez votre photo pour la couverture" color="#ffffff"/>
+				</mx:Canvas>
+				<mx:Canvas width="302" height="39">
+					<mx:Button label="Mes images..." id="mesImages" width="108" x="6" y="6"/>
+					<mx:Button label="?" id="aideCouv" mouseOut="hideToolTip(event)" click="showToolTip(event)" width="33" x="118" y="6"/>
+					<mx:ComboBox id="catalogue" labelField="@nom" close="carouselCloseHandler(event)"  width="141" x="155" y="6" />
+				</mx:Canvas>
+				<mx:Canvas width="313" height="100%" id="canvas2" backgroundColor="#AB040C"  >
+					<mx:Label id="l2" x="10" y="4" text="Sélectionnez le format de photo sur la couverture" color="#ffffff"/>
+				</mx:Canvas>
+				<mx:Canvas x="10" y="100" width="310" height="110">
+					<mx:Image click="selTypeCouv('full',vignetteCouvFull)" x="6" y="9" width="{vignette_full_max_width}" height="{vignette_full_max_height}" alpha=".3" id="vignetteCouvFull" />
+					<mx:Image click="selTypeCouv('medium',vignetteCouvMedium)" x="82" y="9" width="{vignette_full_max_width}" height="{vignette_full_max_height}" alpha=".3" id="vignetteCouvMedium" />
+					<mx:Image click="selTypeCouv('small',vignetteCouvSmall)" x="158" y="9" width="{vignette_full_max_width}" height="{vignette_full_max_height}" alpha=".3" id="vignetteCouvSmall" />
+					<mx:RadioButtonGroup id="radioGroup"/>
+					<mx:RadioButton id="rbPortraitCouv" click="paysageCouv = false; changeCouverture()" x="232" y="10" label="Portrait" groupName="radioGroup" selected="true"/>
+					<mx:RadioButton id="rbPaysageCouv" click="paysageCouv = true; changeCouverture()" x="232" y="36" label="Paysage" groupName="radioGroup" selected="false"/>
+					<mx:Button label="Sans photo" id="delPhoto" width="81" click="supprimePhoto()" height="24" x="228" y="81" fontSize="10"/>
+				</mx:Canvas>
+				<mx:Canvas width="313" height="100%" id="canvas3" backgroundColor="#AB040C" >
+					<mx:Label id="l3" x="10" y="4" text="Sélectionnez une couleur ou un matériau" color="#ffffff"/>
+				</mx:Canvas>
+				<mx:Canvas width="303" height="43">
+					<mx:Label text="Couleur"  width="51" height="20" x="10" y="0"/>
+					<mx:ColorPicker x="22" change="materiauCloseHandler()" id="couleurFond"  selectedColor="#D6CEAA" textAlign="left" y="19"/>
+					<mx:Label text="Matériau"  x="81" y="0"/>
+					<mx:ComboBox id="papier" close="materiauCloseHandler(event)" labelField="@nom" width="153" x="81" y="16" />
+					<mx:Label x="52" y="19" text="ou"/>
+				</mx:Canvas>
+				<mx:Canvas width="313" height="100%" id="canvas4" backgroundColor="#AB040C" >
+					<mx:Label x="10" y="4" text="Saisissez votre texte (50 caractères)" color="#ffffff" id="labelMaxchars"/>
+				</mx:Canvas>
+				<mx:Canvas width="302" height="103">
+					<mx:TextInput change="changeCouverture()" color="{couleurTexte.selectedColor}" width="288" height="26" id="texteCouv" text="" maxChars="50" x="9" y="19"/>
+					<mx:Label text="Couleur" x="9" y="49"/>
+					<mx:ColorPicker change="changeCouverture()" id="couleurTexte" selectedColor="#86700C" x="21" y="67"/>
+					<mx:Label text="Police de caractères" x="64" y="49"/>
+					<mx:Label text="Texte" x="9" y="0.95"/>
+					<mx:ComboBox x="64" y="67" width="133" labelField="@valeur" id="policeCouv" close="policeCloseHandler(event)" />
+					<mx:Label x="214" y="49" text="Taille"/>
+					<mx:ComboBox text="36" x="214" y="67" width="81" id="taillePoliceCouv" labelField="@valeur"  close="taillePoliceCloseHandler(event)" />
+				</mx:Canvas>
+				<mx:Canvas width="313" height="100%" id="canvas5" backgroundColor="#AB040C" >
+					<mx:Label id="l5" x="10" y="4" text="Sélectionnez le format du carnet" color="#ffffff"/>
+				</mx:Canvas>
+				<mx:Canvas x="10" y="471" width="292" height="28">
+					<mx:ComboBox x="6" y="0" labelField="@valeur" id="formatPrix" width="285" />
+				</mx:Canvas>
+			</mx:VBox>
+		</mx:Canvas>
+	
+	<!-- Canvas quatrieme -->
+		<mx:Canvas visible="false" x="0" y="0" width="312" height="504" backgroundColor="#f2f2f2" id="panneauQuatre" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+			<mx:VBox horizontalScrollPolicy="off" verticalScrollPolicy="off" width="311">
+				<mx:Canvas width="313" height="100%" backgroundColor="#AB040C" id="canvas6">
+					<mx:Label id="l6" x="10" y="4" text="Sélectionnez votre photo pour le dos du carnet" color="#ffffff" />
+				</mx:Canvas>
+				<mx:Canvas width="330" height="39">
+					<mx:Button label="Mes images..." id="mesImagesQuat" width="108" x="6" y="6"/>
+					<mx:Button label="?" id="aideQuat" mouseOut="hideToolTip(event)" click="showToolTip(event)" width="33" x="118" y="6"/>
+					<mx:ComboBox id="catalogQuat" labelField="@nom" close="carouselCloseHandler(event)"  width="141" x="155" y="6" />
+				</mx:Canvas>
+				<mx:Canvas width="313" height="100%" id="canvas7" backgroundColor="#AB040C"  >
+					<mx:Label id="l7" x="10" y="4" text="Sélectionnez le format de la photo sur le dos du carnet" color="#ffffff"/>
+				</mx:Canvas>
+				<mx:Canvas x="10" y="100" width="331" height="110">
+					<mx:Image click="selTypeQuat('full',vignetteQuatFull)" x="6" y="9" width="{vignette_full_max_width}" height="{vignette_full_max_height}" alpha=".3" id="vignetteQuatFull" />
+					<mx:Image click="selTypeQuat('medium',vignetteQuatMedium)" x="82" y="9" width="{vignette_full_max_width}" height="{vignette_full_max_height}" alpha=".3" id="vignetteQuatMedium" />
+					<mx:Image click="selTypeQuat('small',vignetteQuatSmall)" x="158" y="9" width="{vignette_full_max_width}" height="{vignette_full_max_height}" alpha=".3" id="vignetteQuatSmall" />
+					<mx:RadioButtonGroup id="radioGroupQuat"/>
+					<mx:RadioButton click="paysageQuat = false; changeQuat()" x="232" y="10" label="Portrait" groupName="radioGroupQuat" selected="true" />
+					<mx:RadioButton click="paysageQuat = true; changeQuat()" x="232" y="36" label="Paysage" groupName="radioGroupQuat" selected="false" />
+					<mx:Button label="Sans photo" id="delPhotoQuat" width="80" click="supprimePhotoQuat()" height="24" x="228" y="81" fontSize="10" />
+					
+				</mx:Canvas>
+				<mx:Canvas width="313" height="100%" id="canvas8" backgroundColor="#AB040C" >
+					<mx:Label id="l8" x="10" y="4" text="Sélectionnez une couleur ou un matériau" color="#ffffff"/>
+				</mx:Canvas>
+				<mx:Canvas width="328" height="43">
+					<mx:Label text="Couleur"  width="51" height="20" x="10" y="0"/>
+					<mx:ColorPicker x="22" change="materiauQuatCloseHandler()" id="couleurFondQuat"  selectedColor="#D6CEAA" textAlign="left" y="19"/>
+					<mx:Label text="Matériau"  x="81" y="0"/>
+					<mx:ComboBox id="papierQuat" labelField="@nom" close="materiauQuatCloseHandler(event)" width="153" x="81" y="16" />
+					<mx:Label x="52" y="19" text="ou"/>
+				</mx:Canvas>
+				<mx:Canvas width="313" height="100%" id="canvas9" backgroundColor="#AB040C" >
+					<mx:Label x="10" y="4" text="Saisissez votre texte (50 caractères)" color="#ffffff" id="labelMaxcharsQuat"/>
+				</mx:Canvas>
+				<mx:Canvas width="327" height="103">
+					<mx:TextInput color="{couleurTexteQuat.selectedColor}" change="changeQuat()" width="288" height="26" id="texteQuat" text="" maxChars="50" x="9" y="19"/>
+					<mx:Label text="Couleur" x="9" y="49"/>
+					<mx:ColorPicker change="changeQuat()" id="couleurTexteQuat" selectedColor="#86700C" x="21" y="67"/>
+					<mx:Label text="Police de caractères" x="64" y="49"/>
+					<mx:Label text="Texte" x="9" y="0.95"/>
+					<mx:ComboBox x="64" y="67" width="133" id="policeQuat" labelField="@valeur"  close="policeQuatCloseHandler(event)" />
+					<mx:Label x="214" y="49" text="Taille"/>
+					<mx:ComboBox text="36" x="214" y="67" width="81" id="taillePoliceQuat" labelField="@valeur"  close="taillePoliceQuatCloseHandler(event)" />
+				</mx:Canvas>
+			</mx:VBox>
+		</mx:Canvas> 
+	<!-- Canvas stylo -->
+		<mx:Canvas visible="false" x="0" y="0" width="312" height="504" backgroundColor="#f2f2f2" id="panneauStylo" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+			<mx:VBox horizontalScrollPolicy="off" verticalScrollPolicy="off" width="311">
+				<mx:Canvas width="100%" height="100%" backgroundColor="#AB040C" id="canvas10">
+					<mx:Label id="l10" x="10" y="4" text="Sélectionnez votre photo pour votre stylo (facultatif)" color="#ffffff"/>
+				</mx:Canvas>
+				<mx:Canvas width="330" height="39">
+					<mx:Button label="Mes images..." id="mesImagesStylo" width="108" x="6" y="6"/>
+					<mx:Button label="?" id="aideStylo" mouseOut="hideToolTip(event)" click="showToolTip(event)" width="33" x="118" y="6"/>
+					<mx:ComboBox id="catalogStylo" labelField="@nom" close="carouselCloseHandler(event)" width="141" x="155" y="6" />
+				</mx:Canvas>
+				<mx:Canvas width="100%" height="100%" backgroundColor="#AB040C" id="canvas11" >
+					<mx:Label id="l11" x="10" y="4" text="Sélectionnez votre format de photo" color="#ffffff"/>
+				</mx:Canvas>
+				<mx:Canvas x="10" y="100" width="331" height="110" >
+					<mx:Image click="selTypeStylo('full',vignetteStyloFull)" x="6" y="9" width="{vignette_full_max_width}" height="{vignette_full_max_height}" alpha=".3" id="vignetteStyloFull" />
+					<mx:Image click="selTypeStylo('medium',vignetteStyloMedium)" x="122" y="9" width="{vignette_full_max_width}" height="{vignette_full_max_height}" alpha=".3" id="vignetteStyloMedium" />
+					<mx:Button label="Sans photo" id="delPhotoStylo" width="80" click="supprimePhotoStylo()" height="24" x="228" y="36" fontSize="10" />
+				</mx:Canvas>
+				<mx:Canvas width="100%" height="100%" id="canvas12" backgroundColor="#AB040C" >
+					<mx:Label id="l12" x="1" y="4" text="Sélectionnez les couleurs du capuchon et du corps" color="#ffffff" />
+				</mx:Canvas>
+				<mx:Canvas width="328" height="43">
+					<mx:Label text="Couleur du capuchon"  width="140" height="20" x="10" y="0" id="label3"/>
+					<mx:ColorPicker x="59" change="materiauCapuchonCloseHandler()" id="couleurCapuchon"  selectedColor="#D6CEAA" textAlign="left" y="19"/>
+					<mx:Label text="Couleur du corps du stylo"  width="160" height="20" x="158" y="0" id="label4"/>
+					<mx:ColorPicker x="217" y="19" change="materiauStyloCloseHandler()" id="couleurCorps"  selectedColor="#D6CEAA" textAlign="left" />
+				</mx:Canvas>
+				<mx:Canvas width="100%" height="100%" id="canvas13" backgroundColor="#AB040C" >
+					<mx:Label x="10" y="4" text="Saisissez votre texte sur le capuchon (20 car.)" color="#ffffff" id="labelMaxcharsStylo"/>
+				</mx:Canvas>
+				<mx:Canvas width="327" height="153">
+					<mx:TextInput color="{couleurTexteStylo.selectedColor}" change="changeStylo()" width="288" height="26" id="texteStylo" maxChars="20" x="9" y="19"/>
+					<mx:Label text="Couleur" x="9" y="49"/>
+					<mx:ColorPicker change="changeStylo()" id="couleurTexteStylo" selectedColor="#86700C" x="21" y="67"/>
+					<mx:Label text="Police de caractères" x="64" y="49"/>
+					<mx:Label text="Texte" x="9" y="0.95"/>
+					<mx:ComboBox x="64" y="67" width="133" id="policeStylo" labelField="@valeur"  close="policeStyloCloseHandler(event)" />
+					<mx:Label x="214" y="49" text="Taille"/>
+					<mx:ComboBox text="36" x="214" y="67" width="81" id="taillePoliceStylo" labelField="@valeur"  close="taillePoliceStyloCloseHandler(event)" />
+					<mx:RadioButtonGroup id="radiogroupStylo"/>
+					<mx:RadioButton change="horizontalStyloTexte=true;changeStylo()" x="127" y="105" label="horizontal" groupName="radiogroupStylo" fontSize="14" selected="true"/>
+					<mx:RadioButton change="horizontalStyloTexte=false;changeStylo()" x="127" y="125" label="vertical" groupName="radiogroupStylo" fontSize="14"/>
+				</mx:Canvas>
+			</mx:VBox>
+		</mx:Canvas> 
+	</mx:Canvas>
+	
+<!-- Canvas 3d --> 
+	<mx:VBox id="troisD"  width="608" height="525"  backgroundColor="#ffffff">
+		<mx:Canvas width="100%" height="24" backgroundColor="#bebebe" id="canvasTitre">
+			<mx:Label x="10" y="4" text="Ci-dessous le carnet que vous souhaitez commander" color="#FFFFFF"  id="titreObjet" width="579" textAlign="center"/>
+		</mx:Canvas>
+		<mx:Canvas width="100%" height="100%"  id="canvasVisu">
+			<mx:Image id="couv" x="-15" y="40" visible="true" />
+			<mx:Image id="quat" x="0" y="40" visible="false" />
+			<mx:Image id="cap" x="-10" y="100" visible="false" />
+			<mx:Image id="stylo" x="101" y="146" visible="false" />
+		</mx:Canvas>
+	<!--
+				var fpsUIComponent:UIComponent = new UIComponent(); source="images/materiaux/capuchon.png" 
+				this.addChild(fpsUIComponent);		//TODO supprimer anciens
+	-->
+	<!--		<mx:Label x="0" y="0" text="rotXC" />
+			<mx:HSlider value="310" minimum="0" maximum="360" x="0" y="0" change="rotXC=sliderRotationXC.value;changeCouverture()" liveDragging="true" snapInterval="1" id="sliderRotationXC" />
+			<mx:Label x="0" y="10" text="rotYC" />
+			<mx:HSlider value="23" minimum="0" maximum="360" x="0" y="20" change="rotYC=sliderRotationYC.value;changeCouverture()" liveDragging="true" snapInterval="1" width="178" id="sliderRotationYC" />
+			<mx:Label x="0" y="30" text="rotZC" />
+			<mx:HSlider value="17" minimum="0" maximum="360" x="0" y="40" change="rotZC=sliderRotationZC.value;changeCouverture()" liveDragging="true" snapInterval="1" width="178" id="sliderRotationZC" />
+	
+			<mx:Label x="400" y="0" text="rotXQ" />
+			<mx:HSlider value="148" minimum="0" maximum="360" x="400" y="0" change="rotXQ=sliderRotationXQ.value;changeQuat()" liveDragging="true" snapInterval="1" id="sliderRotationXQ" />
+			<mx:Label x="400" y="10" text="rotYQ" />
+			<mx:HSlider value="200" minimum="0" maximum="360" x="400" y="20" change="rotYQ=sliderRotationYQ.value;changeQuat()" liveDragging="true" snapInterval="1" width="178" id="sliderRotationYQ" />
+			<mx:Label x="400" y="30" text="rotZQ" />
+			<mx:HSlider value="164" minimum="0" maximum="360" x="400" y="40" change="rotZQ=sliderRotationZQ.value;changeQuat()" liveDragging="true" snapInterval="1" width="178" id="sliderRotationZQ" />
+	
+			<mx:Label x="190" y="0" text="rotX" />
+			<mx:HSlider value="194" minimum="0" maximum="360" x="200" y="0" change="rotXS=sliderRotationX.value;changeStylo()" liveDragging="true" snapInterval="1" id="sliderRotationX" />
+			<mx:Label x="190" y="10" text="rotY" />
+			<mx:HSlider value="183" minimum="0" maximum="360" x="200" y="20" change="rotYS=sliderRotationY.value;changeStylo()" liveDragging="true" snapInterval="1" width="178" id="sliderRotationY" />
+			<mx:Label x="190" y="30" text="rotZ" />
+			<mx:HSlider value="194" minimum="0" maximum="360" x="200" y="40" change="rotZS=sliderRotationZ.value;changeStylo()" liveDragging="true" snapInterval="1" width="178" id="sliderRotationZ" />
+	-->
+			<!--<mx:Label x="180" y="400" text="X" />
+			<mx:HSlider value="315" minimum="0" maximum="1000"  x="200" y="410" id="sliderX" change="if (sprCouv) sprCouv.x=sliderX.value" liveDragging="true" snapInterval="1" />
+			<mx:Label x="180" y="420" text="Y" />
+			<mx:HSlider value="315" minimum="-400" maximum="1000"  x="200" y="430" id="sliderY" change="if (sprCouv) sprCouv.y=sliderY.value" liveDragging="true" snapInterval="1" />
+			<mx:Label x="180" y="540" text="Z" />
+			<mx:HSlider value="315" minimum="0" maximum="1500"  x="200" y="450" id="sliderZ" change="if (sprCouv) sprCouv.z=sliderZ.value" liveDragging="true" snapInterval="1" />
+			<mx:Label x="180" y="460" text="scaleX" />
+			<mx:HSlider value=".34" minimum="0.2" maximum="0.5"  x="200" y="470" id="sliderSX" change="if (sprCouv) sprCouv.scaleX=sliderSX.value" liveDragging="true" snapInterval=".01" />
+			<mx:Label x="180" y="480" text="scaleY" />
+			<mx:HSlider value=".34" minimum="0.2" maximum="0.5"  x="200" y="490" id="sliderSY" change="if (sprCouv) sprCouv.scaleY=sliderSY.value" liveDragging="true" snapInterval=".01" />
+			<mx:Label x="180" y="500" text="scaleZ" />
+			<mx:HSlider value=".34" minimum="0.2" maximum="0.5"  x="200" y="510" id="sliderSZ" change="if (sprCouv) sprCouv.scaleZ=sliderSZ.value" liveDragging="true" snapInterval=".01" />
+	-->
+	</mx:VBox>
+</mx:HBox>
+<!-- Carousel --> 
+	<mx:Canvas id="panelCarousel" width="100%" height="10" visible="false" horizontalScrollPolicy="off" verticalScrollPolicy="off" />
+</mx:VBox>	
+<mx:ApplicationControlBar id="footerACB"  fillAlphas="[1.0, 1.0]" fillColors="[#000000, #000000]" y="500" width="950">	
+	<mx:Spacer width="30" height="2"/>
+	<mx:Button label="Mémorisez ce carnet stylo" id="btnSave" fillAlphas="[1.0, 1.0]" fillColors="[#F18989, #C30808, #EC1717, #EC1717]" click="memo()" color="#FFFFFF" width="223" fontWeight="bold" cornerRadius="10"/>
+	<mx:Spacer width="30" height="2"/>
+	<mx:Button label="Commandez ce carnet stylo" id="btnCommander" fillAlphas="[1.0, 1.0]" fillColors="[#F1F0F0, #C7C7C7, #EC1717, #EC1717]" click="commander()" color="#AF1313" width="223" fontWeight="bold" cornerRadius="10"/>
+	<mx:Spacer width="30" height="2"/>
+	<mx:Button label="Voir ce carnet stylo" id="btnVoir" fillAlphas="[1.0, 1.0]" fillColors="[#F18989, #C30808, #EC1717, #EC1717]" click="voir()" color="#FFFFFF" width="223" fontWeight="bold" cornerRadius="10"/>
+</mx:ApplicationControlBar>
+	<mx:Style source="css/general.css"/>
+</mx:Application>
