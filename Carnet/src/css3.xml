@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<css>
+<!-- css -->
+	<couleurBandeau valeur="0x00FF00" description="couleur des bandeaux entetes" />
+	<couleurPoliceBandeau valeur="0xFFFFFF" description="couleur police bandeaux" />
+	<degradeBoutonTexte valeur="0xF00F0F" description="couleur texte bouton dégradé" />
+	<degradeBoutonFillHaut valeur="0xFF0000" description="couleur bouton dégradé" />
+	<degradeBoutonFillBas valeur="0x00FF00" description="couleur bouton dégradé" />
+	<degradeBoutonRollHaut valeur="0x0000FF" description="couleur bouton dégradé" />
+	<degradeBoutonRollBas valeur="0xFFFF00" description="couleur bouton dégradé" />
+	<degradeBoutonTexteAutre valeur="0xF00FFF" description="couleur texte bouton dégradé" />
+	<degradeBoutonFillHautAutre valeur="0x550000" description="couleur bouton dégradé" />
+	<degradeBoutonFillBasAutre valeur="0x005500" description="couleur bouton dégradé" />
+	<degradeBoutonRollHautAutre valeur="0x000055" description="couleur bouton dégradé" />
+	<degradeBoutonRollBasAutre valeur="0x555500" description="couleur bouton dégradé" />
+</css>
+
+

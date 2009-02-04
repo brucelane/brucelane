@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<couv>
+<!-- coordonnees mapping image -->
+	<variable nom="tlx" valeur="13" description="top left x" />
+	<variable nom="tly" valeur="75" description="top left y" />
+	<variable nom="trx" valeur="259" description="top right x" />
+	<variable nom="try" valeur="19" description="top right y" />
+	<variable nom="blx" valeur="202" description="bottom left x" />
+	<variable nom="bly" valeur="330" description="bottom left y" />
+	<variable nom="brx" valeur="474" description="bottom right x" />
+	<variable nom="bry" valeur="256" description="bottom right y" />
+<!-- coordonnees mapping full -->
+	<variable nom="tlxFull" valeur="13" description="top left x" />
+	<variable nom="tlyFull" valeur="75" description="top left y" />
+	<variable nom="trxFull" valeur="259" description="top right x " />
+	<variable nom="tryFull" valeur="19" description="top right y " />
+	<variable nom="blxFull" valeur="202" description="bottom left x " />
+	<variable nom="blyFull" valeur="330" description="bottom left y " />
+	<variable nom="brxFull" valeur="474" description="bottom right x " />
+	<variable nom="bryFull" valeur="256" description="bottom right y " />
+<!-- coordonnees mapping medium -->
+	<variable nom="tlxMedium" valeur="70" description="top left x " />
+	<variable nom="tlyMedium" valeur="94" description="top left y " />
+	<variable nom="trxMedium" valeur="252" description="top right x " />
+	<variable nom="tryMedium" valeur="54" description="top right y " />
+	<variable nom="blxMedium" valeur="214" description="bottom left x " />
+	<variable nom="blyMedium" valeur="286" description="bottom left y " />
+	<variable nom="brxMedium" valeur="411" description="bottom right x " />
+	<variable nom="bryMedium" valeur="236" description="bottom right y " />
+<!-- coordonnees mapping small -->
+	<variable nom="tlxSmall" valeur="140" description="top left x " />
+	<variable nom="tlySmall" valeur="129" description="top left y " />
+	<variable nom="trxSmall" valeur="251" description="top right x " />
+	<variable nom="trySmall" valeur="103" description="top right y " />
+	<variable nom="blxSmall" valeur="198" description="bottom left x " />
+	<variable nom="blySmall" valeur="205" description="bottom left y " />
+	<variable nom="brxSmall" valeur="311" description="bottom right x " />
+	<variable nom="brySmall" valeur="173" description="bottom right y " />
+<!-- coordonnees mapping texte -->
+	<variable nom="largTxt" valeur="418" description="largeur du texte" />
+	<variable nom="hautTxt" valeur="598" description="hauteur du texte" />
+	
+<!-- seuil detection couleur -->
+	<variable nom="seuil" valeur="0XAA" description="seuil" />
+	<variable nom="alpha" valeur=".7" description="alpha couleur appliquée" />
+	<variable nom="blurImage" valeur="1" description="flou image 0=pas de flou" />
+	<variable nom="blurTexte" valeur="2" description="flou texte 0=pas de flou" />
+
+<!-- image bitmap sur laquelle on construit -->
+	<variable nom="chemin" valeur="images/materiaux/dos.png" description="image" />
+
+</couv>
+
+
