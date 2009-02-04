@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <variables>
-	<variable nom="debug" valeur="true" description="si true, affiche les elements pour le calage" />
+	<variable nom="debug" valeur="false" description="si true, affiche les elements pour le calage" />
 <!-- url -->
 	<variable nom="urlmemo" valeur="http://82.225.83.70/photos3D/memo.cfm" description="url memorisation personnalisation carnet" />
 	<variable nom="urlcommande" valeur="http://82.225.83.70/photos3D/commande.cfm" description="url commande carnet" />

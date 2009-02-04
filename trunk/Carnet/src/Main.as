@@ -445,15 +445,6 @@
 		public function created():void
 		{
             trace("14>> created");
-            myTimer = new Timer(1000, 1);
-            myTimer.addEventListener("timer", calledLater);
-            myTimer.start();
-        }
-		public function calledLater(event:TimerEvent):void
-		{
-            trace("15>> verifier calledLater APRES xmlLoaded  ");
-			trace("mesImages:" + mesImages);
-			//myTimer.stop();
 			mesImages.addEventListener ( MouseEvent.CLICK, handleCouvMouseEvent ) ;
 			mesImagesQuat.addEventListener ( MouseEvent.CLICK, handleQuatMouseEvent ) ;
 			mesImagesStylo.addEventListener ( MouseEvent.CLICK, handleStyloMouseEvent ) ;
@@ -465,6 +456,15 @@
 			matCouvFond = new BitmapData(1,1,false,couleurFond.selectedColor); 
 			matCouvQuat = new BitmapData(1,1,false,couleurFond.selectedColor); 
 			matCouvStylo = new BitmapData(1,1,false,couleurFond.selectedColor); 
+            myTimer = new Timer(2000, 1);
+            myTimer.addEventListener("timer", calledLater);
+            myTimer.start();
+        }
+		public function calledLater(event:TimerEvent):void
+		{
+            trace("15>> verifier calledLater APRES xmlLoaded  ");
+			trace("mesImages:" + mesImages);
+			//myTimer.stop();
 
 			resizeVignetteCouv(false); 
  			resizeVignetteQuat(false);
