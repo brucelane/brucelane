@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<materiauxpapier>
-	<materielpapier id="1" nom="Papier Kraft" type="image" valeur="0xddd6b9" chemin="images/materiaux/kraft.png" />
-	<materielpapier id="2" nom="Papier noir" type="base" valeur="0x000000" />
-	<materielpapier id="3" nom="Jean" type="image" valeur="0x3e88d3" chemin="images/materiaux/jean.jpg" />
-</materiauxpapier>

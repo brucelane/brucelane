@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<css>
-<!-- css -->
-	<couleurBandeau valeur="0xAB040C" description="couleur des bandeaux entetes" />
-	<couleurPoliceBandeau valeur="0xFFFFFF" description="couleur police bandeaux" />
-</css>
-
-
