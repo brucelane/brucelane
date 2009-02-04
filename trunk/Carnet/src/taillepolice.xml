@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<taillepolices>
+	<taillepolice id="0" valeur="14" />
+	<taillepolice id="1" valeur="16" />
+	<taillepolice id="2" valeur="18" />
+	<taillepolice id="3" valeur="20" />
+	<taillepolice id="4" valeur="24" />
+	<taillepolice id="5" valeur="36" />
+	<taillepolice id="6" valeur="48" />
+	<taillepolice id="7" valeur="72" />
+</taillepolices>

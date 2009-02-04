@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<main>
+	<config>
+		<rotate rad="400" dark="88" />      	<!-- rad:rayon du cercle(en pixel), dark:coeff de luminosite vers le fond(0 a 255) -->
+		<thumb wMax="192" hMax="192" />	    	<!-- wMax:largeur de la miniature, hMax:hauteur de la miniature -->
+		<view type="reduce" thumb="reScale"/> 	<!-- type: "noResize","reduce","fullView" - thumb: "noScale","reScale"","fullScale"-->
+	</config>
+	<images path="images/">
+		<img id="0" url="cezanne-paul-landscape-with-brook-2633216.jpg" />
+		<img id="1" url="Fanciful_Landscape-1834-Thomas_Doughty.jpg" />
+		<img id="2" url="Landscape - Chateau Saint Ulrich, France.jpg" />
+		<img id="3" url="landscape-at-the-end.jpg" />
+		<img id="4" url="landscape-photo.jpg" />
+		<img id="5" url="oak-tree-landscape.jpg" />
+		<img id="6" url="OLIVIER--de-villeneuve-f-olive-landscape-2400815.jpg" />
+		<img id="7" url="park_landscape_first_place_Algonquin_1.jpg" />
+	</images>
+</main>

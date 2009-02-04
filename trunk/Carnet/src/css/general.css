@@ -1,0 +1,68 @@
+/* CSS file */
+Button.acbButton
+{
+	selection-color	: #E5E31F;
+	themeColor: #E5E31F;
+	fillColors: #E5E31F, #E5E31F;
+}
+
+global
+{
+	backgroundGradientAlphas: 1.0, 1.0;
+	backgroundGradientColors: #FFFFFF, #FFFFFF;
+	color: #000000;
+	fontFamily: Arial;
+	fontSize: 12;
+	fontWeight: bold;
+	themeColor: #F6F439;
+}
+Button
+{
+	color: #010304;
+	fontFamily: Arial;
+	fontSize: 12;
+	themeColor: #AB040C;
+	fontWeight: normal;
+}
+ComboBox
+{
+	color: #000000;
+	fontSize: 12;
+	dropdownStyleName: comboBoxDropdown;
+}
+Canvas
+{
+	borderColor: #FFFFFF;
+	fontSize: 12;
+	color: #FFFFFF;
+}
+Label
+{
+	color: #000000;
+	fontFamily: Arial;
+	fontSize: 12;
+	fontWeight: normal;
+}
+HBox
+{
+}
+@font-face
+{
+	fontFamily: Arial;
+	fontWeight: normal;
+	fontStyle: normal;
+	src: local("Arial");
+}
+ApplicationControlBar
+{
+	fillAlphas: 1.0, 1.0;
+	fillColors: #000000, #000000;
+	color: #EEF616;
+	cornerRadius: 2;
+	fontFamily: Arial;
+	fontSize: 16;
+}
+/* 	acb 
+
+
+ */
