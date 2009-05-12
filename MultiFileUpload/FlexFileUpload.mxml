@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" creationComplete="initApp();" alpha="1" themeColor="haloGreen" backgroundGradientAlphas="[0.9, 0.96]" viewSourceURL="srcview/index.html" backgroundGradientColors="[#000000, #70828f]">
+    
+    
+    <mx:Style source="assets/styles/main.css"/>
+    
+    <mx:Script source="FlexFileUpload_cb.as"/>
+
+    <mx:Panel  width="652" height="330" layout="absolute" title="File Upload Control">
+     
+        <mx:DataGrid id="filesDG" left="0" right="0" bottom="30" top="5"/>
+        <mx:ProgressBar id="progressbar" labelPlacement="center" trackHeight="15" left="0" right="0" bottom="5" height="20"/>
+        
+    	<mx:ControlBar>
+    	
+	        <mx:Spacer width="100%"/>
+	            <mx:HBox>
+	                <mx:Button label="Browse For Files" id="browseBTN"/>
+	                <mx:Button label="Upload" id="upload_btn"/>
+	                <mx:Button label="Remove" id="delButton"/>
+	                <mx:Button label="Clear All" id="clearButton"/>
+	            </mx:HBox>
+	            
+        </mx:ControlBar>
+        
+    </mx:Panel>
+    
+</mx:Application>

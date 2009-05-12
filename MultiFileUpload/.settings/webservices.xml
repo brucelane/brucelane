@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectRoot>
+<url value="http://sonata.local:8080/global/api/authentication.cfc?WSDL">
+<service name="authenticationService">
+<port name="authentication.cfc">
+<operations>
+<operation name="login(hostid: double, user: string, pass: string): string"/>
+<operation name="loginhost(user: string, pass: string, hostname: string): string"/>
+</operations>
+</port>
+</service>
+<asPackage absPath="E:\Projects\onyx\MultiFileUpload\local\sonata" name="local.sonata">
+<mainAsClass name="AuthenticationService.as"/>
+<otherAsClass name="BaseauthenticationServiceSchema.as"/>
+<otherAsClass name="LoginhostResultEvent.as"/>
+<otherAsClass name="Loginhost_request.as"/>
+<otherAsClass name="IauthenticationService.as"/>
+<otherAsClass name="Login_request.as"/>
+<otherAsClass name="BaseauthenticationService.as"/>
+<otherAsClass name="LoginResultEvent.as"/>
+</asPackage>
+</url>
+<url value="http://api.razuna.com/global/api/authentication.cfc?WSDL">
+<service name="authenticationService">
+<port name="authentication.cfc">
+<operations>
+<operation name="login(hostid: double, user: string, pass: string): string"/>
+<operation name="loginhost(user: string, pass: string, hostname: string): string"/>
+</operations>
+</port>
+</service>
+<asPackage absPath="E:\Projects\onyx\MultiFileUpload\com\razuna" name="com.razuna">
+<mainAsClass name="AuthenticationService.as"/>
+<otherAsClass name="BaseauthenticationServiceSchema.as"/>
+<otherAsClass name="LoginhostResultEvent.as"/>
+<otherAsClass name="Loginhost_request.as"/>
+<otherAsClass name="IauthenticationService.as"/>
+<otherAsClass name="Login_request.as"/>
+<otherAsClass name="BaseauthenticationService.as"/>
+<otherAsClass name="LoginResultEvent.as"/>
+</asPackage>
+</url>
+</projectRoot>
