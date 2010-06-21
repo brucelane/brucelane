@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gallery image_height="150" image_width="150" image_gap="5" rows="3">
+	<photo>
+		<description>This is a description for the first image</description>
+		<thumb_path>images/thumb.jpg</thumb_path>
+		<full_path>images/full.gif</full_path>
+	</photo>
+	<photo>
+		<description>This is a description for the second image</description>
+		<thumb_path>images/thumb.jpg</thumb_path>
+		<full_path>images/full.gif</full_path>
+	</photo>
+	<photo>
+		<description>This is a description for the third image</description>
+		<thumb_path>images/thumb.jpg</thumb_path>
+		<full_path>images/full.gif</full_path>
+	</photo>
+	<photo>
+		<description>This is a description for the fourth image</description>
+		<thumb_path>images/thumb.jpg</thumb_path>
+		<full_path>images/full.gif</full_path>
+	</photo>
+	<photo>
+		<description>This is a description for the fifth image</description>
+		<thumb_path>images/thumb.jpg</thumb_path>
+		<full_path>images/full.gif</full_path>
+	</photo>
+	<photo>
+		<description>This is a description for the sixth image</description>
+		<thumb_path>images/thumb.jpg</thumb_path>
+		<full_path>images/full.gif</full_path>
+	</photo>
+	<photo>
+		<description>This is a description for the seventh image</description>
+		<thumb_path>images/thumb.jpg</thumb_path>
+		<full_path>images/full.gif</full_path>
+	</photo>
+	<photo>
+		<description>This is a description for the eighth image</description>
+		<thumb_path>images/thumb.jpg</thumb_path>
+		<full_path>images/full.gif</full_path>
+	</photo>
+	<photo>
+		<description>This is a description for the ninth image</description>
+		<thumb_path>images/thumb.jpg</thumb_path>
+		<full_path>images/full.gif</full_path>
+	</photo>
+	<photo>
+		<description>This is a description for the tenth image</description>
+		<thumb_path>images/thumb.jpg</thumb_path>
+		<full_path>images/full.gif</full_path>
+	</photo>
+	<photo>
+		<description>This is a description for the eleventh image</description>
+		<thumb_path>images/thumb.jpg</thumb_path>
+		<full_path>images/full.gif</full_path>
+	</photo>
+	<photo>
+		<description>This is a description for the twelfth image</description>
+		<thumb_path>images/thumb.jpg</thumb_path>
+		<full_path>images/full.gif</full_path>
+	</photo>
+	<photo>
+		<description>This is a description for the thirteenth image</description>
+		<thumb_path>images/thumb.jpg</thumb_path>
+		<full_path>images/full.gif</full_path>
+	</photo>
+	<photo>
+		<description>This is a description for the fourteenth image</description>
+		<thumb_path>images/thumb.jpg</thumb_path>
+		<full_path>images/full.gif</full_path>
+	</photo>
+	<photo>
+		<description>This is a description for the fifteenth image</description>
+		<thumb_path>images/thumb.jpg</thumb_path>
+		<full_path>images/full.gif</full_path>
+	</photo>
+</gallery>
