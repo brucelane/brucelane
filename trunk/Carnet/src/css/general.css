@@ -46,13 +46,7 @@ Label
 HBox
 {
 }
-@font-face
-{
-	fontFamily: Arial;
-	fontWeight: normal;
-	fontStyle: normal;
-	src: local("Arial");
-}
+
 ApplicationControlBar
 {
 	fillAlphas: 1.0, 1.0;
