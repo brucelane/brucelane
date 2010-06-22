@@ -17,7 +17,7 @@
     preinitialize="preInit()"
     creationComplete="created()"
 	width="950" height="615"  
-	 currentState="stateEtape1">
+	 currentState="stateEtape1" xmlns:mx1="library://ns.adobe.com/flex/mx" xmlns:s="library://ns.adobe.com/flex/spark">
 	<mx:states>
 		<mx:State name="stateCarousel">
 			<mx:SetProperty target="{panneauGauche}" name="height" value="220"/>
@@ -324,11 +324,11 @@
 </mx:VBox>	
 <mx:ApplicationControlBar id="footerACB"  fillAlphas="[1.0, 1.0]" fillColors="[#000000, #000000]" y="500" width="950">	
 	<mx:Spacer width="30" height="2"/>
-	<mx:Button label="Mémorisez ce carnet stylo" id="btnSave" fillAlphas="[1.0, 1.0]" fillColors="[#F18989, #C30808, #EC1717, #EC1717]" click="memo()" color="#FFFFFF" width="223" fontWeight="bold" cornerRadius="10"/>
+	<s:Button label="Mémorisez ce carnet stylo" id="btnSave" click="memo()" color="#FFFFFF" width="223" fontWeight="bold" cornerRadius="10"/>
 	<mx:Spacer width="30" height="2"/>
-	<mx:Button label="Commandez ce carnet stylo" id="btnCommander" fillAlphas="[1.0, 1.0]" fillColors="[#F1F0F0, #C7C7C7, #EC1717, #EC1717]" click="commander()" color="#AF1313" width="223" fontWeight="bold" cornerRadius="10"/>
+	<mx:Button label="Commandez ce carnet stylo" id="btnCommander" click="commander()" color="#AF1313" width="223" fontWeight="bold" cornerRadius="10"/>
 	<mx:Spacer width="30" height="2"/>
-	<mx:Button label="Voir ce carnet stylo" id="btnVoir" fillAlphas="[1.0, 1.0]" fillColors="[#F18989, #C30808, #EC1717, #EC1717]" click="voir()" color="#FFFFFF" width="223" fontWeight="bold" cornerRadius="10"/>
+	<mx:Button label="Voir ce carnet stylo" id="btnVoir" click="voir()" color="#FFFFFF" width="223" fontWeight="bold" cornerRadius="10"/>
 </mx:ApplicationControlBar>
 	<mx:Style source="css/general.css"/>
 </mx:Application>
