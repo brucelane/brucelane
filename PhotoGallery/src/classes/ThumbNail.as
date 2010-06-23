@@ -6,6 +6,7 @@ package classes
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.IOErrorEvent;
 	import flash.events.MouseEvent;
 	import flash.net.URLRequest;
 	import flash.text.TextField;
@@ -61,6 +62,7 @@ package classes
 		{
 			_imageLoader = new Loader ();
 			_imageLoader.contentLoaderInfo.addEventListener (Event.COMPLETE, imageComplete, false, 0, true);
+			_imageLoader.contentLoaderInfo.addEventListener ( IOErrorEvent.IO_ERROR, ioErrorHandler );
 			_imageLoader.load (new URLRequest (path));
 		}				
 		
@@ -92,7 +94,10 @@ package classes
 		///////////////////////////////////////////////////////////////////////////////////
 		private function onMouseOver (e:MouseEvent):void
 		{
-			Tweener.addTween (_descriptionContainer, {y:75, time:0.5, transition:"easeOutExpo"});
+			if ( this._description.text.length > 0 )
+			{
+				Tweener.addTween (_descriptionContainer, {y:75, time:0.5, transition:"easeOutExpo"});
+			}
 		}
 		
 		private function onMouseOut (e:MouseEvent):void
@@ -108,18 +113,23 @@ package classes
 			_imageContainer.addChildAt (_imageLoader, 0);
 			
 			// Apply background after the image has completely loaded
-			drawBackground ();
+			//drawBackground ();
 			
 			// Draw the mask around the description
 			drawMask ();
 			
 			// Fade in the container
-			Tweener.addTween (_imageContainer, {alpha:1, time:0.5});
+			Tweener.addTween (_imageContainer, {alpha:1, time:5});
 			
 			// Clean up
 			_imageLoader.contentLoaderInfo.removeEventListener (Event.COMPLETE, imageComplete);
 		}
 		
+		private function ioErrorHandler( event:IOErrorEvent ):void
+		{
+			trace( 'An IO Error has occured: ' + event.text );
+		}		
+
 		// Draws a background behind _imageContainer
 		private function drawBackground ():void
 		{
