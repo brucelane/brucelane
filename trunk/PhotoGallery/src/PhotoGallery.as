@@ -7,12 +7,14 @@ package {
 	
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
+	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	
-	[SWF(width="466", height="515", backgroundColor="#000000", frameRate="30")]
+	
+	[SWF(width="466", height="355", backgroundColor="#000000", frameRate="30")]
 	public class PhotoGallery extends Sprite
 	{
 		// Containers
@@ -44,6 +46,9 @@ package {
 			_xmlLoader = new URLLoader ();
 			_xmlLoader.addEventListener (Event.COMPLETE, xmlComplete, false, 0, true);
 			_xmlLoader.load (new URLRequest ("gallery.xml"));
+			/*var swfStage:Stage = this.stage;
+			swfStage.stage.width = 30;*/
+
 		}
 		
 		// XML Complete
@@ -63,8 +68,8 @@ package {
 		private function loadImages ():void
 		{
 			// Temporary variables
-			var imageHeight:uint = _xml.@imageHeight;
-			var imageWidth:uint = _xml.@imageWidth;
+			var imageHeight:uint = _xml.@thumbHeight;
+			var imageWidth:uint = _xml.@thumbWidth;
 			var imageGap:uint = _xml.@image_gap;
 			var rows:uint = _xml.@rows;
 			var rowCounter:uint = 0;
@@ -72,26 +77,26 @@ package {
 			
 			// Instantiate the container and position it on screen
 			_thumbContainer = new Sprite ();
-			_thumbContainer.x = 78;
-			_thumbContainer.y = 78;
+			_thumbContainer.x = imageWidth/2 + imageGap;
+			_thumbContainer.y = imageHeight/2 + imageGap;
 			_thumbContainer.buttonMode = true;
 			_thumbContainer.addEventListener (MouseEvent.CLICK, thumbClick, false, 0, true);
 			this.addChild (_thumbContainer);
 			
 			// Loop through the images and create the visual grid	
-			for (var i:uint = 0; i < _xml.listassets.asset.length(); i++)
+			for (var i:uint = 0; i < _xml.asset.length(); i++)
 			{
-				var path:String = getFileName( _xml.listassets.asset[i].thumbnail );
-				var description:String = _xml.listassets.asset[i].description;
+				var path:String = _xml.asset[i].thumbnail;
+				var description:String = _xml.asset[i].description;
 				
 				// Create the thumbnail
-				var p:ThumbNail = new ThumbNail ();
+				var p:ThumbNail = new ThumbNail();
 				p.newID = i;
 				p.loadImage (path);
 				p.description = description;
-				p.x = (imageWidth + imageGap) * columnCounter;
-				p.y = (imageHeight + imageGap) * rowCounter; 				
-				_thumbContainer.addChild (p);
+				p.x = ( imageWidth + imageGap ) * columnCounter;
+				p.y = ( imageHeight + imageGap ) * rowCounter; 				
+				_thumbContainer.addChild(p);
 				
 				// Create the grid
 				if ((rowCounter + 1) < rows)
@@ -136,18 +141,24 @@ package {
 			disableNavigation ();
 			
 			// Disable the container that stores the thumbnails
-			_thumbContainer.buttonMode = false;
+			/*_thumbContainer.buttonMode = false;
 			_thumbContainer.mouseChildren = false;
-			_thumbContainer.removeEventListener (MouseEvent.CLICK, thumbClick);
+			_thumbContainer.removeEventListener (MouseEvent.CLICK, thumbClick);*/
 			
 			// Get the full image path
-			var imagePath:String = getFileName( _xml.listassets.asset[e.target.newID].url );
+			var imagePath:String = _xml.asset[e.target.newID].url;
 			
 			// Instantiate the big photo
+			if ( _bigPhoto )
+			{
+				Tweener.addTween (_bigPhoto, {alpha:0, time:1, onComplete:deletePhoto});
+			}
+			
+			
 			_bigPhoto = new BigPhoto ();
 			_bigPhoto.buttonMode = true;
-			_bigPhoto.x = 108;
-			_bigPhoto.y = 107.5;
+			_bigPhoto.x = 10;
+			_bigPhoto.y = 10;
 			_bigPhoto.alpha = 0;
 			_bigPhoto.loadImage (imagePath);
 			_bigPhoto.addEventListener (MouseEvent.CLICK, closePhoto, false, 0, true);
@@ -166,16 +177,19 @@ package {
 		
 		private function deletePhoto ():void
 		{
-			_bigPhoto.buttonMode = false;
-			_bigPhoto.removeEventListener (MouseEvent.CLICK, closePhoto);
-			_bigPhoto.destroy ();
+			if ( _bigPhoto )
+			{
+				_bigPhoto.buttonMode = false;
+				_bigPhoto.removeEventListener( MouseEvent.CLICK, closePhoto );
+				_bigPhoto.destroy();
+				
+				this.removeChild ( _bigPhoto );
+				_bigPhoto = null;
+			}
 			
-			this.removeChild (_bigPhoto);
-			_bigPhoto = null;
-			
-			_thumbContainer.buttonMode = true;
+			/*_thumbContainer.buttonMode = true;
 			_thumbContainer.mouseChildren = true;
-			_thumbContainer.addEventListener (MouseEvent.CLICK, thumbClick, false, 0, true);
+			_thumbContainer.addEventListener (MouseEvent.CLICK, thumbClick, false, 0, true);*/
 			
 			enableNavigation ();
 		}
@@ -191,7 +205,7 @@ package {
 			this.addChild (_nextButton);
 			_nextButton.addChild (n);
 			_nextButton.x = stage.stageWidth - _nextButton.width;
-			_nextButton.y = 475;
+			_nextButton.y = stage.stageHeight - 70;
 			
 			// Instantiate the back arrow
 			var b:Bitmap = new _backArrow ();
@@ -202,7 +216,7 @@ package {
 			this.addChild (_backButton);
 			_backButton.addChild (b);	
 			_backButton.x = _nextButton.x - _nextButton.width - 5;		
-			_backButton.y = 475;
+			_backButton.y = stage.stageHeight - 70;
 			
 			enableNavigation ();
 		}
@@ -223,16 +237,6 @@ package {
 			
 			_backButton.buttonMode = false;
 			_backButton.removeEventListener (MouseEvent.CLICK, previousClick);
-		}
-		private function getFileName( url:String ):String
-		{
-			var lastSlash:uint = url.lastIndexOf( '/' );
-			var fileName:String;
-			if ( lastSlash > -1 )
-			{
-				fileName = url.substr( lastSlash + 1 );
-			}
-			return fileName;
 		}
 	}
 }
