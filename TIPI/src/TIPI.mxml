@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="500" minHeight="300">
+	<fx:Style source="tipi.css"/>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			
+			protected function btnEnvoyer_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
+		<mx:StringValidator source="{numClient}" property="text" minLength="6" maxLength="6" />
+	</fx:Declarations>
+	<s:Form width="100%" height="100%">
+		<s:FormItem label="Numéro client">
+			<s:TextInput id="numClient" width="167"
+						 toolTip="Saisissez votre numéro de client attribué à la collectivité (longueur de 6 caractères)"
+						 prompt="Saisissez votre numéro de client (longueur de 6 caractères)"/>
+		</s:FormItem>
+		<s:FormItem label="Libellé">
+			<s:TextInput/>
+		</s:FormItem>
+		<s:Button id="btnEnvoyer" label="Envoyer" click="btnEnvoyer_clickHandler(event)" />
+	</s:Form>
+</s:Application>
