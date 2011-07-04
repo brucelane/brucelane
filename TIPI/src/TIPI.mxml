@@ -96,7 +96,7 @@
 		</s:FormItem>
 		<s:FormItem label="Mél">
 			<s:TextInput id="email" width="167"
-						 text = "b.lane@agglo-casa.fr"
+						 text = "b.lane"
 						 toolTip="Saisissez votre mél"
 						 prompt="Saisissez votre mél"/>
 		</s:FormItem>
