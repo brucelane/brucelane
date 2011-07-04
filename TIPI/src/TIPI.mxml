@@ -44,7 +44,7 @@
 					tipiUrlComplete += "&refdet=" + refDette.text;
 					tipiUrlComplete += "&objet=" + objet.text;
 					tipiUrlComplete += "&montant=" + montant.text;
-					tipiUrlComplete += "&urlcl=www.agglo-sophia-antipolis.fr";
+					tipiUrlComplete += "&urlcl=www.casa-infos.fr";
 					tipiUrlComplete += "&mel=" + email.text;
 					tipiUrlComplete += "&saisie=T";
 					navigateToURL( new URLRequest(tipiUrlComplete) );	
@@ -56,45 +56,69 @@
 	
 	<fx:Declarations>
 		<!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
-		<mx:StringValidator id="numClientValidateur" source="{numClient}" property="text" minLength="6" maxLength="6" tooShortError="Le numéro est trop court" tooLongError="Le numéro est trop long" />
-		<mx:StringValidator id="exerciceValidateur" source="{exercice}" property="text" minLength="4" maxLength="4" tooShortError="L'exercice est trop court" tooLongError="L'exercice est trop long" />
-		<mx:StringValidator id="refDetteValidateur" source="{refDette}" property="text" minLength="18" maxLength="18" tooShortError="La référence de la dette est trop courte" tooLongError="La référence de la dette est trop longue" />
-		<mx:StringValidator id="objetValidateur" source="{objet}" property="text" maxLength="100" tooLongError="L'objet est trop long" />
-		<mx:NumberValidator id="montantValidateur" source="{montant}" property="text" allowNegative="false" domain="int"/>
-		<mx:EmailValidator id="emailValidateur" source="{email}" property="text"/>
+		<mx:StringValidator id="numClientValidateur" source="{numClient}" property="text" minLength="6" maxLength="6" 
+							tooShortError="Le numéro est trop court" 
+							tooLongError="Le numéro est trop long" 
+							requiredFieldError="Champ obligatoire" />
+		<mx:StringValidator id="exerciceValidateur" source="{exercice}" property="text" minLength="4" maxLength="4" 
+							tooShortError="L'exercice est trop court" 
+							tooLongError="L'exercice est trop long" 
+							requiredFieldError="Champ obligatoire" />
+		<mx:StringValidator id="refDetteValidateur" source="{refDette}" property="text" minLength="18" maxLength="18" 
+							tooShortError="La référence de la dette est trop courte" 
+							tooLongError="La référence de la dette est trop longue" 
+							requiredFieldError="Champ obligatoire" />
+		<mx:StringValidator id="objetValidateur" source="{objet}" property="text" maxLength="100" 
+							tooLongError="L'objet est trop long" 
+							requiredFieldError="Champ obligatoire" />
+		<mx:NumberValidator id="montantValidateur" source="{montant}" property="text" allowNegative="false" domain="int" 
+							invalidCharError="Caractère(s) invalide(s)"
+							invalidFormatCharsError="Caractère(s) de format invalide(s)"
+							integerError="Doit être un entier"
+							
+							requiredFieldError="Champ obligatoire"/>
+		<mx:EmailValidator id="emailValidateur" source="{email}" property="text" 
+						   invalidCharError="Caractère non valide"
+						   invalidIPDomainError="Domaine IP non valide, ajouter des crochets"
+						   invalidPeriodsInDomainError="Points invalides dans le nom de domaine"
+						   missingAtSignError="Manque '@'"
+						   missingPeriodInDomainError="Manque un point dans le nom de domaine"
+						   missingUsernameError="Manque l'utilisateur"
+						   requiredFieldError="Champ obligatoire"
+						   invalidDomainError="Domaine invalide"/> 
 	</fx:Declarations>
 	<s:Form width="100%" height="100%">
-		<s:FormItem label="Numéro client">
+		<s:FormItem width="310" label="Numéro client">
 			<s:TextInput id="numClient" width="167"
 						 text = "123456"
 						 toolTip="Saisissez votre numéro de client attribué à la collectivité (longueur de 6 caractères)"
 						 prompt="Saisissez votre numéro de client (longueur de 6 caractères)"/>
 		</s:FormItem>
-		<s:FormItem label="Exercice">
+		<s:FormItem width="310" label="Exercice">
 			<s:TextInput id="exercice" width="167"
 						 text = "1234"
 						 toolTip="Saisissez le numéro d'exercice (longueur de 4 caractères)"
 						 prompt="Saisissez le numéro d'exercice (longueur de 4 caractères)"/>
 		</s:FormItem>
-		<s:FormItem label="Référence de la dette">
+		<s:FormItem width="311" label="Référence dette">
 			<s:TextInput id="refDette" width="167"
 						 text = "123456789012345678"
 						 toolTip="Saisissez la référence de la dette (longueur de 18 caractères)"
 						 prompt="Saisissez la référence de la dette (longueur de 18 caractères)"/>
 		</s:FormItem>
-		<s:FormItem label="Objet">
-			<s:TextInput id="objet" width="100%"
+		<s:FormItem width="312" label="Objet">
+			<s:TextInput id="objet" width="165"
 						 text = "objet essai"
 						 toolTip="Saisissez l'objet (longueur 100 caractères maximum)"
 						 prompt="Saisissez l'objet (proscrire toutes données à caractère personnel)"/>
 		</s:FormItem>
-		<s:FormItem label="Montant">
+		<s:FormItem width="312" label="Montant">
 			<s:TextInput id="montant" width="167"
 						 text = "15200"
 						 toolTip="Saisissez le montant (longueur de 6 chiffres maximum, sans point ni virgule)"
 						 prompt="Saisissez le montant (sans point ni virgule)"/>
 		</s:FormItem>
-		<s:FormItem label="Mél">
+		<s:FormItem width="312" label="Mél">
 			<s:TextInput id="email" width="167"
 						 text = "b.lane"
 						 toolTip="Saisissez votre mél"
