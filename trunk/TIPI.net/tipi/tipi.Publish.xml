@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<publishData>
+  <publishProfile publishUrl="\\srvextranet04\tipi" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="www.agglo-sophia-antipolis.fr/tipi" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="True" profileName="Profil1" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
+    <file relUrl="Web.config" publishTime="08/02/2011 16:21:41" />
+    <file relUrl="Site.Master" publishTime="08/02/2011 15:05:49" />
+    <file relUrl="bin/tipi.dll" publishTime="08/02/2011 16:21:40" />
+    <file relUrl="Account/Web.config" publishTime="08/02/2011 15:05:49" />
+    <file relUrl="Account/Register.aspx" publishTime="08/02/2011 15:05:49" />
+    <file relUrl="bin/tipi.pdb" publishTime="08/02/2011 16:21:40" />
+    <file relUrl="Account/ChangePasswordSuccess.aspx" publishTime="08/02/2011 15:05:49" />
+    <file relUrl="Account/Login.aspx" publishTime="08/02/2011 15:05:49" />
+    <file relUrl="Styles/Site.css" publishTime="08/02/2011 15:05:49" />
+    <file relUrl="Scripts/jquery-1.4.1.js" publishTime="08/02/2011 15:05:49" />
+    <file relUrl="Account/ChangePassword.aspx" publishTime="08/02/2011 15:05:48" />
+    <file relUrl="Global.asax" publishTime="08/02/2011 15:05:49" />
+    <file relUrl="Scripts/jquery-1.4.1-vsdoc.js" publishTime="08/02/2011 15:05:49" />
+    <file relUrl="About.aspx" publishTime="08/02/2011 15:05:49" />
+    <file relUrl="Default.aspx" publishTime="08/02/2011 15:05:49" />
+    <file relUrl="Scripts/jquery-1.4.1.min.js" publishTime="08/02/2011 15:05:49" />
+  </publishProfile>
+</publishData>
