@@ -14,17 +14,24 @@
 			import mx.validators.Validator;
 			private var tipiUrlBase:String = "http://www.jepaiemesserviceslocaux.dgfip.finances.gouv.fr/tpa/paiement.web?";
 			private var tipiUrlComplete:String;
+			private var refDette:String;
 			private var validateurs:Array;
 			
 			private function initializeHandler(event:Event):void{
 				// crée un tableau avec tous les validators
-				validateurs = [exerciceValidateur, refDetteValidateur, objetValidateur, montantValidateur];
+				validateurs = [exerciceValidateur, refTitreValidateur, objetValidateur, montantValidateur];
 			}
-			
+			private function zeroPad( str:String, length:int ):String
+			{
+				if (str.length < length)
+					return "0" + zeroPad(str, length-1);
+				return str;
+			}
 			protected function btnEnvoyer_clickHandler(event:MouseEvent):void
 			{
 				// déclenche tous les validateurs
 				var results:Array = Validator.validateAll(validateurs);
+				var paddedTitre:String;
 				
 				// si le tableau est vide, tout s'est bien passé
 				// sinon, au moins un des validateurs n'est pas passé
@@ -38,16 +45,19 @@
 					Alert.show(message);
 				}
 				else
-				{		
+				{	
+					paddedTitre = zeroPad( titre.text, 8 );
+					refDette = exercice.text + paddedTitre + "000001";
 					tipiUrlComplete = tipiUrlBase + "numcli=000257";
 					tipiUrlComplete += "&exer=" + exercice.text;
-					tipiUrlComplete += "&refdet=" + refDette.text;
+					tipiUrlComplete += "&refdet=" + refDette;
 					tipiUrlComplete += "&objet=" + objet.text;
 					tipiUrlComplete += "&montant=" + montant.text;
 					//tipiUrlComplete += "&urlcl=92.103.200.244%2Ftipi";
 					tipiUrlComplete += "&mel=tipi%40agglo-casa.fr";
 					tipiUrlComplete += "&saisie=T";
 					navigateToURL( new URLRequest(tipiUrlComplete) );	
+					btnEnvoyer.enabled = false;
 				}
 			}
 			
@@ -64,7 +74,9 @@
 							tooShortError="La référence de la dette est trop courte" 
 							tooLongError="La référence de la dette est trop longue" 
 							requiredFieldError="Champ obligatoire" />-->
-		<mx:StringValidator id="refDetteValidateur" source="{refDette}" property="text"
+		<mx:StringValidator id="refTitreValidateur" source="{titre}" property="text" minLength="1" maxLength="8"
+							tooShortError="Le numéro de titre est trop court" 
+							tooLongError="Le numéro de titre est trop long"
 							requiredFieldError="Champ obligatoire" />
 		<mx:StringValidator id="objetValidateur" source="{objet}" property="text" maxLength="100" 
 							tooLongError="L'objet est trop long" 
@@ -91,10 +103,10 @@
 						 prompt="Saisissez le numéro d'exercice (longueur de 4 caractères)"
 						 toolTip="Saisissez le numéro d'exercice (longueur de 4 caractères)"/>
 		</s:FormItem>
-		<s:FormItem width="311" label="Référence dette">
-			<s:TextInput id="refDette" width="167"
-						 prompt="Saisissez la référence de la dette (longueur de 18 caractères)"
-						 toolTip="Saisissez la référence de la dette (longueur de 18 caractères)"/>
+		<s:FormItem width="311" label="Titre">
+			<s:TextInput id="titre" width="167"
+						 prompt="Saisissez le numéro de titre (longueur de 1 à 8 caractères)"
+						 toolTip="Saisissez le numéro de titre (longueur de 1 à 8 caractères)"/>
 		</s:FormItem>
 		<s:FormItem width="312" label="Objet">
 			<s:TextInput id="objet" width="165"
@@ -114,5 +126,7 @@
 		</s:FormItem>-->
 
 		<s:Button id="btnEnvoyer" label="Envoyer" click="btnEnvoyer_clickHandler(event)" />
+		<s:Spacer height="20" />
+		<s:Label text="Composant TIPI version 1.0.1" fontSize="6" />
 	</s:Form>
 </s:Application>
