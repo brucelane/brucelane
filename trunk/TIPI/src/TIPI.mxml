@@ -3,7 +3,7 @@
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   initialize="initializeHandler(event)"
-			   minWidth="500" minHeight="300">
+			   minWidth="500" minHeight="350">
 	<fx:Style source="tipi.css"/>
 	
 	<fx:Script>
@@ -19,7 +19,7 @@
 			
 			private function initializeHandler(event:Event):void{
 				// crée un tableau avec tous les validators
-				validateurs = [exerciceValidateur, refTitreValidateur, objetValidateur, montantValidateur];
+				validateurs = [exerciceValidateur, refTitreValidateur, montantValidateur, centsValidateur];
 			}
 			private function zeroPad( str:String, length:int ):String
 			{
@@ -32,6 +32,7 @@
 				// déclenche tous les validateurs
 				var results:Array = Validator.validateAll(validateurs);
 				var paddedTitre:String;
+				var paddedMontant:String;
 				
 				// si le tableau est vide, tout s'est bien passé
 				// sinon, au moins un des validateurs n'est pas passé
@@ -47,13 +48,14 @@
 				else
 				{	
 					paddedTitre = zeroPad( titre.text, 8 );
+					paddedMontant = montant.text + zeroPad( cents.text, 2 );
 					refDette = exercice.text + paddedTitre + "000001";
 					tipiUrlComplete = tipiUrlBase + "numcli=000257";
 					tipiUrlComplete += "&exer=" + exercice.text;
 					tipiUrlComplete += "&refdet=" + refDette;
-					tipiUrlComplete += "&objet=" + objet.text;
-					tipiUrlComplete += "&montant=" + montant.text;
-					//tipiUrlComplete += "&urlcl=92.103.200.244%2Ftipi";
+					tipiUrlComplete += "&objet=dechetterie";
+					tipiUrlComplete += "&montant=" + paddedMontant;
+					tipiUrlComplete += "&urlcl=http%SA%2F%2Fwww.casa-infos.fr%";
 					tipiUrlComplete += "&mel=tipi%40agglo-casa.fr";
 					tipiUrlComplete += "&saisie=T";
 					navigateToURL( new URLRequest(tipiUrlComplete) );	
@@ -70,63 +72,48 @@
 							tooShortError="L'exercice est trop court" 
 							tooLongError="L'exercice est trop long" 
 							requiredFieldError="Champ obligatoire" />
-		<!--<mx:StringValidator id="refDetteValidateur" source="{refDette}" property="text" minLength="18" maxLength="18" 
-							tooShortError="La référence de la dette est trop courte" 
-							tooLongError="La référence de la dette est trop longue" 
-							requiredFieldError="Champ obligatoire" />-->
 		<mx:StringValidator id="refTitreValidateur" source="{titre}" property="text" minLength="1" maxLength="8"
 							tooShortError="Le numéro de titre est trop court" 
 							tooLongError="Le numéro de titre est trop long"
 							requiredFieldError="Champ obligatoire" />
-		<mx:StringValidator id="objetValidateur" source="{objet}" property="text" maxLength="100" 
-							tooLongError="L'objet est trop long" 
-							requiredFieldError="Champ obligatoire" />
 		<mx:NumberValidator id="montantValidateur" source="{montant}" property="text" allowNegative="false" domain="int" 
 							invalidCharError="Caractère(s) invalide(s)"
 							invalidFormatCharsError="Caractère(s) de format invalide(s)"
-							integerError="Doit être un entier"
-							
+							integerError="Doit être un entier"			
 							requiredFieldError="Champ obligatoire"/>
-		<!--<mx:EmailValidator id="emailValidateur" source="{email}" property="text" 
-						   invalidCharError="Caractère non valide"
-						   invalidIPDomainError="Domaine IP non valide, ajouter des crochets"
-						   invalidPeriodsInDomainError="Points invalides dans le nom de domaine"
-						   missingAtSignError="Manque '@'"
-						   missingPeriodInDomainError="Manque un point dans le nom de domaine"
-						   missingUsernameError="Manque l'utilisateur"
-						   requiredFieldError="Champ obligatoire"
-						   invalidDomainError="Domaine invalide"/>--> 
+		<mx:NumberValidator id="centsValidateur" source="{cents}" property="text" allowNegative="false" domain="int" 
+							invalidCharError="Caractère(s) invalide(s)"
+							invalidFormatCharsError="Caractère(s) de format invalide(s)"
+							integerError="Doit être un entier"	
+							minValue="0" maxValue="99"
+							exceedsMaxError="Doit être inférieur ou égal à 99 cents"
+							requiredFieldError="Champ obligatoire"/>
 	</fx:Declarations>
 	<s:Form width="100%" height="100%">
-		<s:FormItem width="310" label="Exercice">
-			<s:TextInput id="exercice" width="167"
-						 prompt="Saisissez le numéro d'exercice (longueur de 4 caractères)"
+		<s:FormItem width="470" label="Exercice">
+			<s:TextInput id="exercice" width="80"
+						 prompt="4 caractères"
 						 toolTip="Saisissez le numéro d'exercice (longueur de 4 caractères)"/>
 		</s:FormItem>
-		<s:FormItem width="311" label="Titre">
-			<s:TextInput id="titre" width="167"
-						 prompt="Saisissez le numéro de titre (longueur de 1 à 8 caractères)"
+		<s:FormItem width="470" label="Titre">
+			<s:TextInput id="titre" width="120"
+						 prompt="1 à 8 caractères"
 						 toolTip="Saisissez le numéro de titre (longueur de 1 à 8 caractères)"/>
 		</s:FormItem>
-		<s:FormItem width="312" label="Objet">
-			<s:TextInput id="objet" width="165"
-						 prompt="Saisissez l'objet (proscrire toutes données à caractère personnel)"
-						 toolTip="Saisissez l'objet (longueur 100 caractères maximum)"/>
+		<s:FormItem width="470" label="Montant">
+			<s:HGroup>
+				<s:TextInput id="montant" width="80"
+							 prompt="montant"
+							 toolTip="Saisissez le montant (longueur de 4 chiffres maximum, sans point ni virgule)"/>
+				<s:Label text="€" width="10" />
+				<s:TextInput id="cents" width="40"
+							 prompt="cents"
+							 toolTip="Saisissez les cents (longueur de 2 chiffres maximum)"/>			
+			</s:HGroup>
 		</s:FormItem>
-		<s:FormItem width="312" label="Montant">
-			<s:TextInput id="montant" width="167"
-						 prompt="Saisissez le montant (sans point ni virgule)"
-						 toolTip="Saisissez le montant (longueur de 6 chiffres maximum, sans point ni virgule)"/>
-		</s:FormItem>
-		<!--<s:FormItem width="312" label="Mél">
-			<s:TextInput id="email" width="167"
-						 text = ""
-						 toolTip="Saisissez votre mél"
-						 prompt="Saisissez votre mél"/>
-		</s:FormItem>-->
 
 		<s:Button id="btnEnvoyer" label="Envoyer" click="btnEnvoyer_clickHandler(event)" />
 		<s:Spacer height="20" />
-		<s:Label text="Composant TIPI version 1.0.1" fontSize="6" />
+		<s:Label text="Composant TIPI version 1.0.2" fontSize="8" />
 	</s:Form>
 </s:Application>
