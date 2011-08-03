@@ -44,7 +44,7 @@
 					tipiUrlComplete += "&refdet=" + refDette.text;
 					tipiUrlComplete += "&objet=" + objet.text;
 					tipiUrlComplete += "&montant=" + montant.text;
-					tipiUrlComplete += "&urlcl=www.agglo-sophia-antipolis.fr%2Ftipi";
+					//tipiUrlComplete += "&urlcl=92.103.200.244%2Ftipi";
 					tipiUrlComplete += "&mel=tipi%40agglo-casa.fr";
 					tipiUrlComplete += "&saisie=T";
 					navigateToURL( new URLRequest(tipiUrlComplete) );	
@@ -60,9 +60,11 @@
 							tooShortError="L'exercice est trop court" 
 							tooLongError="L'exercice est trop long" 
 							requiredFieldError="Champ obligatoire" />
-		<mx:StringValidator id="refDetteValidateur" source="{refDette}" property="text" minLength="18" maxLength="18" 
+		<!--<mx:StringValidator id="refDetteValidateur" source="{refDette}" property="text" minLength="18" maxLength="18" 
 							tooShortError="La référence de la dette est trop courte" 
 							tooLongError="La référence de la dette est trop longue" 
+							requiredFieldError="Champ obligatoire" />-->
+		<mx:StringValidator id="refDetteValidateur" source="{refDette}" property="text"
 							requiredFieldError="Champ obligatoire" />
 		<mx:StringValidator id="objetValidateur" source="{objet}" property="text" maxLength="100" 
 							tooLongError="L'objet est trop long" 
