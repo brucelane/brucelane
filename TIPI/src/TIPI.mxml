@@ -18,7 +18,7 @@
 			
 			private function initializeHandler(event:Event):void{
 				// crée un tableau avec tous les validators
-				validateurs = [exerciceValidateur, refDetteValidateur, objetValidateur, montantValidateur, emailValidateur];
+				validateurs = [exerciceValidateur, refDetteValidateur, objetValidateur, montantValidateur];
 			}
 			
 			protected function btnEnvoyer_clickHandler(event:MouseEvent):void
@@ -39,13 +39,13 @@
 				}
 				else
 				{		
-					tipiUrlComplete = tipiUrlBase + "numcli=00257";
+					tipiUrlComplete = tipiUrlBase + "numcli=000257";
 					tipiUrlComplete += "&exer=" + exercice.text;
 					tipiUrlComplete += "&refdet=" + refDette.text;
 					tipiUrlComplete += "&objet=" + objet.text;
 					tipiUrlComplete += "&montant=" + montant.text;
-					tipiUrlComplete += "&urlcl=www.agglo-sophia-antipolis.fr/tipi";
-					tipiUrlComplete += "&mel=" + email.text;
+					tipiUrlComplete += "&urlcl=www.agglo-sophia-antipolis.fr%2Ftipi";
+					tipiUrlComplete += "&mel=tipi%40agglo-casa.fr";
 					tipiUrlComplete += "&saisie=T";
 					navigateToURL( new URLRequest(tipiUrlComplete) );	
 				}
@@ -73,7 +73,7 @@
 							integerError="Doit être un entier"
 							
 							requiredFieldError="Champ obligatoire"/>
-		<mx:EmailValidator id="emailValidateur" source="{email}" property="text" 
+		<!--<mx:EmailValidator id="emailValidateur" source="{email}" property="text" 
 						   invalidCharError="Caractère non valide"
 						   invalidIPDomainError="Domaine IP non valide, ajouter des crochets"
 						   invalidPeriodsInDomainError="Points invalides dans le nom de domaine"
@@ -81,7 +81,7 @@
 						   missingPeriodInDomainError="Manque un point dans le nom de domaine"
 						   missingUsernameError="Manque l'utilisateur"
 						   requiredFieldError="Champ obligatoire"
-						   invalidDomainError="Domaine invalide"/> 
+						   invalidDomainError="Domaine invalide"/>--> 
 	</fx:Declarations>
 	<s:Form width="100%" height="100%">
 		<s:FormItem width="310" label="Exercice">
@@ -104,12 +104,12 @@
 						 prompt="Saisissez le montant (sans point ni virgule)"
 						 toolTip="Saisissez le montant (longueur de 6 chiffres maximum, sans point ni virgule)"/>
 		</s:FormItem>
-		<s:FormItem width="312" label="Mél">
+		<!--<s:FormItem width="312" label="Mél">
 			<s:TextInput id="email" width="167"
 						 text = ""
 						 toolTip="Saisissez votre mél"
 						 prompt="Saisissez votre mél"/>
-		</s:FormItem>
+		</s:FormItem>-->
 
 		<s:Button id="btnEnvoyer" label="Envoyer" click="btnEnvoyer_clickHandler(event)" />
 	</s:Form>
