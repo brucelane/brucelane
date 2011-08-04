@@ -57,7 +57,7 @@
 					tipiUrlComplete += "&montant=" + paddedMontant;
 					tipiUrlComplete += "&urlcl=http%SA%2F%2Fwww.casa-infos.fr%";
 					tipiUrlComplete += "&mel=tipi%40agglo-casa.fr";
-					tipiUrlComplete += "&saisie=T";
+					tipiUrlComplete += "&saisie=X";
 					navigateToURL( new URLRequest(tipiUrlComplete) );	
 					btnEnvoyer.enabled = false;
 				}
