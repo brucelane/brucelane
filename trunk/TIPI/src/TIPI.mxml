@@ -3,23 +3,36 @@
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   initialize="initializeHandler(event)"
+			   addedToStage="onComplete()"
 			   minWidth="500" minHeight="350">
 	<fx:Style source="tipi.css"/>
 	
 	<fx:Script>
 		<![CDATA[
+			import com.google.analytics.AnalyticsTracker;
+			import com.google.analytics.GATracker;
+			
 			import flash.net.navigateToURL;
 			
 			import mx.controls.Alert;
 			import mx.validators.Validator;
+			
+			public var tracker:AnalyticsTracker;
 			private var tipiUrlBase:String = "http://www.jepaiemesserviceslocaux.dgfip.finances.gouv.fr/tpa/paiement.web?";
 			private var tipiUrlComplete:String;
 			private var refDette:String;
 			private var validateurs:Array;
+			[Bindable]
+			private var version:String = "1.0.5";
 			
 			private function initializeHandler(event:Event):void{
 				// crée un tableau avec tous les validators
 				validateurs = [exerciceValidateur, refTitreValidateur, montantValidateur, centsValidateur];
+			}
+			private function onComplete():void
+			{
+				tracker = new GATracker( this, "UA-24947447-1", "AS3", false );
+				tracker.trackPageview( "/chargement/" + version );
 			}
 			private function zeroPad( str:String, length:int ):String
 			{
@@ -60,6 +73,8 @@
 					tipiUrlComplete += "&saisie=X";
 					navigateToURL( new URLRequest(tipiUrlComplete) );	
 					btnEnvoyer.enabled = false;
+					tracker.trackPageview( "/" + paddedTitre + "/" + paddedMontant + "/" + refDette );
+
 				}
 			}
 			
@@ -114,6 +129,6 @@
 
 		<s:Button id="btnEnvoyer" label="Envoyer" click="btnEnvoyer_clickHandler(event)" />
 		<s:Spacer height="20" />
-		<s:Label text="Composant TIPI version 1.0.2" fontSize="8" />
+		<s:Label text="Composant TIPI version {version}" fontSize="9" />
 	</s:Form>
 </s:Application>
