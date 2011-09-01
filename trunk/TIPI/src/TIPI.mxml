@@ -23,7 +23,7 @@
 			private var refDette:String;
 			private var validateurs:Array;
 			[Bindable]
-			private var version:String = "1.0.7";
+			private var version:String = "1.0.8";
 			
 			private function initializeHandler(event:Event):void{
 				// crée un tableau avec tous les validators
@@ -70,7 +70,7 @@
 					tipiUrlComplete += "&montant=" + paddedMontant;
 					tipiUrlComplete += "&urlcl=http%3A%2F%2Fwww.casa-infos.fr";
 					tipiUrlComplete += "&mel=tipi%40agglo-casa.fr";
-					tipiUrlComplete += "&saisie=X";
+					tipiUrlComplete += "&saisie=M";
 					navigateToURL( new URLRequest(tipiUrlComplete) );	
 					btnEnvoyer.enabled = false;
 					tracker.trackPageview( "/" + paddedTitre + "/" + paddedMontant + "/" + refDette );
