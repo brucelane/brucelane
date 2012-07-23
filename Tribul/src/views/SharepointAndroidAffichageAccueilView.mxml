@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Accueil"
+		creationComplete="windowedapplication1_creationCompleteHandler(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Script source="Accueil.as" />
+	<s:VGroup x="46" y="10" width="510" height="533">
+		<s:Label text="Site"/>
+		<s:TextInput id="urlsite" text="http://www.agglo-sophia-antipolis.fr/" />
+		<s:Label text="Utilisateur"/>
+		<s:TextInput id="user" text="CASA\" />
+		<s:Label text="Mot de passe" />
+		<s:TextInput id="pwd" displayAsPassword="true" text=""/>
+		<s:Button id="cnx" label="Connexion" click="cnx_clickHandler(event)"/>
+		<s:TextArea id="txt" width="485" height="308"/>
+	</s:VGroup>
+</s:View>
