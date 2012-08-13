@@ -11,15 +11,14 @@ private var myXML:XML;
 private var arColumns:Array = new Array();
 private var arTemp:Array = new Array();
 [Bindable]
-private var listCommunes = new ArrayList();
+private var listCommunes:ArrayList = new ArrayList();
 
 protected function onViewActivate(event:ViewNavigatorEvent):void
 {
 	myXML = new XML( event.target.data );
 	
 	myXML.ignoreWhite = true;
-	txt.text = myXML.toString();
-	
+
 	var rsNS:Namespace = myXML.namespace("rs");
 	var zNS:Namespace = myXML.namespace("z");
 	var sNS:Namespace = myXML.namespace("s")
@@ -41,7 +40,6 @@ protected function onViewActivate(event:ViewNavigatorEvent):void
 		{
 			sRef = "@" + arColumns[col][0][0];
 			trace(arColumns[col][0][1] + " = " + zRow[sRef]);
-			txt.text += arColumns[col][0][1] + " = " + zRow[sRef];
 			if (arColumns[col][0][1] == "Commune") listCommunes.addItem({Commune:zRow[sRef]});
 		}
 		i++;

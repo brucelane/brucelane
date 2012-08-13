@@ -11,7 +11,7 @@
 	</fx:Script>
 	
 	<fx:Script source="Accueil.as" />
-	<s:VGroup x="46" y="10" width="510" height="533">
+	<s:VGroup x="46" y="10" width="306" height="400">
 		<s:Label text="Site"/>
 		<s:TextInput id="urlsite" text="http://www.agglo-sophia-antipolis.fr/" />
 		<s:Label text="Utilisateur"/>
@@ -19,6 +19,6 @@
 		<s:Label text="Mot de passe" />
 		<s:TextInput id="pwd" displayAsPassword="true" text=""/>
 		<s:Button id="cnx" label="Connexion" click="cnx_clickHandler(event)"/>
-		<s:TextArea id="txt" width="485" height="308"/>
+		<s:TextArea id="txt" width="297" height="164"/>
 	</s:VGroup>
 </s:View>
