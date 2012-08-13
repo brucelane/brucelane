@@ -73,12 +73,12 @@ protected function windowedapplication1_creationCompleteHandler(event:FlexEvent)
 	
 }
 
-private function progress( event:ProgressEvent) {
+private function progress( event:ProgressEvent):void {
 	trace(event.bytesLoaded+" chargés sur "+event.bytesTotal);
 }
 
 // fonction indiquant si une erreur de chargmement survient :
-private function erreur( event:Event ) {
+private function erreur( event:Event ):void {
 	trace(event);
 	trace(event.currentTarget.data);
 }
