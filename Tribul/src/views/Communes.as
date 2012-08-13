@@ -1,11 +1,17 @@
+import mx.collections.ArrayList;
 import mx.events.FlexEvent;
+import mx.states.AddItems;
+
+import spark.components.List;
+import spark.events.IndexChangeEvent;
 import spark.events.ViewNavigatorEvent;
 
 [Bindable]
 private var myXML:XML;
 private var arColumns:Array = new Array();
 private var arTemp:Array = new Array();
-
+[Bindable]
+private var listCommunes = new ArrayList();
 
 protected function onViewActivate(event:ViewNavigatorEvent):void
 {
@@ -36,9 +42,16 @@ protected function onViewActivate(event:ViewNavigatorEvent):void
 			sRef = "@" + arColumns[col][0][0];
 			trace(arColumns[col][0][1] + " = " + zRow[sRef]);
 			txt.text += arColumns[col][0][1] + " = " + zRow[sRef];
+			if (arColumns[col][0][1] == "Commune") listCommunes.addItem({Commune:zRow[sRef]});
 		}
 		i++;
 	}
+	spinCommune.dataProvider = listCommunes;
+}
+protected function spinCommune_changeHandler(event:IndexChangeEvent):void
+{
+	txt.text += "Event: " + event.type + " (selectedItem: " + event.currentTarget.selectedItem.Commune + ")\n";
+	
 }
 protected function Communes_creationCompleteHandler(event:FlexEvent):void
 {
