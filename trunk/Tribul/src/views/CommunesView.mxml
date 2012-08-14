@@ -7,11 +7,11 @@
 
 	<fx:Script source="Communes.as" />
 
-	<s:TextArea id="txt" x="27" y="260" width="291" height="181"/>
-	<s:SpinnerListContainer id="spinCommunes" x="27" y="17" width="291" height="200">
-		<s:SpinnerList id="spinCommune" width="290" height="100%"
-					   change="spinCommune_changeHandler(event)" dataProvider="{listCommunes}"
-					   labelField="Commune" selectedIndex="1">
+	<s:TextArea id="txt" x="27" y="260" width="280" height="181"/>
+	<s:SpinnerListContainer id="spinCommunes" x="27" y="17" width="280" height="200">
+		<s:SpinnerList id="spinCommune" width="280" height="100%"
+					   change="spinCommune_changeHandler(event)" 
+					   labelField="Commune" selectedIndex="1"><!--dataProvider="{listCommunes}"-->
 			
 		</s:SpinnerList>
 	</s:SpinnerListContainer>
