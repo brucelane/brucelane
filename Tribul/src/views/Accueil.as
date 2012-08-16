@@ -3,6 +3,7 @@ import flash.filesystem.*;
 
 import fr.batchass.*;
 
+import mx.collections.IViewCursor;
 import mx.events.FlexEvent;
 import mx.rpc.soap.mxml.WebService;
 
@@ -50,7 +51,7 @@ private function connectComplete( event:Event ):void
 	sp.removeEventListener( Event.COMPLETE, connectComplete );
 	
 	sp.addEventListener( Event.COMPLETE, communesComplete );
-	sp.GetList( session.communes );
+	sp.GetList( session.dictListes["Communes"] );
 	
 }
 private function communesComplete( event:Event ):void 

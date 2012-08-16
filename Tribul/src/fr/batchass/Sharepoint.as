@@ -27,10 +27,6 @@ package fr.batchass
 		private var myXML:XML;
 		private var arColumns:Array = new Array();
 		private var arTemp:Array = new Array();
-		[Bindable]
-		public var listCommunes:ArrayList = new ArrayList();
-		[Bindable]
-		public var listListes:ArrayList = new ArrayList();
 		
 		public function Sharepoint(url:String, user:String, password:String, portalORteam:String = "portal", siteNameIfTeam:String = "")
 		{
@@ -171,11 +167,12 @@ package fr.batchass
 				}
 				if ( listGuid && name )
 				{
-					listListes.addItem({guid:listGuid,nom:name});
-					if (name=="Communes") session.communes = listGuid;
+					//session.dictListes.addItem({guid:listGuid,nom:name});
+					session.dictListes[name]=listGuid;
+					//if (name=="Communes") session.communes = listGuid;
 				}
-			}
-			//GetList(listGuid);
+			}		
+
 			dispatchEvent( new Event(Event.COMPLETE) );
 		}
 		private function complete( event:Event ):void {
@@ -203,7 +200,7 @@ package fr.batchass
 				{
 					sRef = "@" + arColumns[col][0][0];
 					trace(arColumns[col][0][1] + " = " + zRow[sRef]);
-					if (arColumns[col][0][1] == "Commune") listCommunes.addItem({Commune:zRow[sRef]});
+					if (arColumns[col][0][1] == "Commune") session.listCommunes.addItem({Commune:zRow[sRef]});
 				}
 				
 			}			
