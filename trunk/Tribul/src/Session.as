@@ -1,12 +1,14 @@
 package
 {
+	import flash.events.Event;
 	import flash.filesystem.File;
 	import flash.system.Capabilities;
-	
-	import fr.batchass.Util;
-	import flash.events.Event;
+	import flash.utils.Dictionary;
 	
 	import fr.batchass.*;
+	import fr.batchass.Util;
+	
+	import mx.collections.ArrayList;
 	
 	[Bindable]
 	public class Session
@@ -19,7 +21,11 @@ package
 		private var defaultConfigXmlPath:String = 'config' + File.separator + 'config.xml';
 		public var CONFIG_XML:XML;
 		private var configFile:File = File.applicationStorageDirectory.resolvePath( defaultConfigXmlPath );
-		private var _communes:String;
+		//private var _communes:String;
+		//[Bindable]//useless?
+		public var listCommunes:ArrayList = new ArrayList();
+		//[Bindable]
+		public var dictListes:Dictionary = new Dictionary();
 		
 		public function Session()
 		{
@@ -107,7 +113,7 @@ package
 			_urlSite = value;
 		}
 
-		public function get communes():String
+		/*public function get communes():String
 		{
 			return _communes;
 		}
@@ -115,7 +121,7 @@ package
 		public function set communes(value:String):void
 		{
 			_communes = value;
-		}
+		}*/
 
 	
 	}
