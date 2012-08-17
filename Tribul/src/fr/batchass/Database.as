@@ -14,6 +14,7 @@ package fr.batchass
 	import fr.batchass.*;
 	
 	import mx.collections.ArrayCollection;
+	import mx.collections.ArrayList;
 	import mx.core.FlexGlobals;
 	
 	public class Database implements IEventDispatcher
@@ -22,7 +23,7 @@ package fr.batchass
 		private static var instance:Database;
 		private var sqlAsyncConn:SQLConnection;
 		private var sqlFile:File;
-		private var _acCommunes:ArrayCollection;
+		private var _acCommunes:ArrayList;
 
 		private var defaultDbXmlPath:String = 'config' + File.separator + 'db.xml';
 		public var cheminBase:String;
@@ -244,11 +245,19 @@ package fr.batchass
 		}
 		public function insert( nomTable:String, champ:String, valeur:String ):void
 		{
-			"INSERT INTO "+ nomTable + " (" + 
+			
+			var stmt:SQLStatement = new SQLStatement();
+			//stmt.addEventListener( SQLEvent.RESULT, insereProduits_Vehicule );
+			stmt.addEventListener( SQLErrorEvent.ERROR, errorHandler );
+			stmt.sqlConnection = sqlAsyncConn;
+			stmt.text = "INSERT INTO "+ nomTable + " (" + 
 				champ +
-				") VALUES (" + 
+				") VALUES ('" + 
 				valeur +
-				")";
+				"')";						
+			Util.log("insert: "+stmt.text);
+			//gerer erreur SQLError: 'Error #3115: SQL Error.', details:'near '101': syntax error', operation:'execute', detailID:'2003'
+			stmt.execute();
 		}
 
 		public function getCommunes():void
@@ -265,7 +274,7 @@ package fr.batchass
 		{
 			var stmt:SQLStatement = SQLStatement(event.target);
 			var result:SQLResult = stmt.getResult();
-			acCommunes = new ArrayCollection();	
+			acCommunes = new ArrayList();	
 			if (result.data)
 			{
 				var numResults:int = result.data.length;
@@ -273,8 +282,8 @@ package fr.batchass
 				for (var i:int = 0; i < numResults; i++)
 				{
 					var row:Object = result.data[i];
-					var id_moteur:String = row.id_moteur;
-					if ( id_moteur.length > 0 ) acCommunes.addItem({id_moteur: row.id_moteur, din:row.din});
+					var commune:String = row.commune;
+					if ( commune.length > 0 ) acCommunes.addItem({commune: row.commune});
 				}
 			}	
 			dispatchEvent( new Event(Event.COMPLETE) );							
@@ -331,12 +340,12 @@ package fr.batchass
 		}
 
 		[Bindable]
-		public function get acCommunes():ArrayCollection
+		public function get acCommunes():ArrayList
 		{
 			return _acCommunes;
 		}
 
-		public function set acCommunes(value:ArrayCollection):void
+		public function set acCommunes(value:ArrayList):void
 		{
 			_acCommunes = value;
 		}
