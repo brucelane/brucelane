@@ -1,0 +1,5 @@
+<tables>
+  <table nom="communes">
+      <champ nom="commune" cle="PK" />
+  </table>
+</tables>

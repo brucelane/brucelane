@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		creationComplete="windowedapplication1_creationCompleteHandler(event)"
+		title="VueGeolocalisation">
+	
+	<fx:Script>
+		<![CDATA[
+			
+		]]>
+	</fx:Script>
+	
+	
+	<fx:Script source="Geolocalisation.as" />
+	
+	<s:VGroup x="4" y="4" width="306" height="400">
+		<s:HGroup width="290" height="46">
+			<s:Label id="latlong" width="233"/>
+			<s:Label id="actif"/>
+		</s:HGroup>
+		<s:Button id="carte" label="Carte" click="carte_clickHandler(event)"/>
+		
+		<s:TextArea id="txt" width="297" height="164"/>
+	</s:VGroup>
+</s:View>
