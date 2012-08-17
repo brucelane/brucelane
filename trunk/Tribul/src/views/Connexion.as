@@ -34,17 +34,17 @@ protected function cnx_clickHandler(event:MouseEvent):void
 
 private function err( event:Event ):void 
 {
-	txt.text += "Erreur pour " + urlsite.text + "\n" + event;
+	txt.text = "Erreur pour " + urlsite.text + "\n" + event;
 	Util.log( txt.text);
 }
 private function connectErr( event:Event ):void 
 {
-	txt.text += "Utilisateur ou mot de passe incorrect pour " + urlsite.text + "\n" + event;
+	txt.text = "Utilisateur ou mot de passe incorrect pour " + urlsite.text + "\n" + event;
 	Util.log( txt.text);
 }
 private function connectComplete( event:Event ):void 
 {
-	txt.text += "Connecté, chargement des communes";
+	txt.text = "Connecté, chargement des communes";
 	
 	Util.log( "Connecté à " + urlsite.text );
 	
@@ -52,12 +52,12 @@ private function connectComplete( event:Event ):void
 	
 	sp.addEventListener( Event.COMPLETE, communesComplete );
 	var db:Database = Database.getInstance();
-	//sp.GetList( session.dictListes["Communes"] );
-	this.navigator.pushView(VueCommunes);
+	sp.GetList( session.dictListes["Communes"] );
+	//this.navigator.pushView(VueCommunes);
 }
 private function communesComplete( event:Event ):void 
 {
-	txt.text += "Communes chargées";
+	txt.text = "Communes chargées";
 	
 	Util.log( "Connecté à " + urlsite.text );
 	
