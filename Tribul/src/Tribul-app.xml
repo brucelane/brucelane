@@ -249,7 +249,8 @@
 			    <uses-permission android:name="android.permission.INTERNET"/>
 			    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>-->
 			    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE"/>-->
-			    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>-->
+			    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+			    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 			    <!--Les autorisations DISABLE_KEYGUARD et WAKE_LOCK doivent être permutées
 		afin d’accéder aux API SystemIdleMode d’AIR.-->
 			    <!--<uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>-->

@@ -21,10 +21,8 @@ package
 		private var defaultConfigXmlPath:String = 'config' + File.separator + 'config.xml';
 		public var CONFIG_XML:XML;
 		private var configFile:File = File.applicationStorageDirectory.resolvePath( defaultConfigXmlPath );
-		//private var _communes:String;
-		//[Bindable]//useless?
-		public var listCommunes:ArrayList = new ArrayList();
-		//[Bindable]
+
+		public var dictCommunes:Dictionary = new Dictionary();
 		public var dictListes:Dictionary = new Dictionary();
 		
 		public function Session()
@@ -56,7 +54,18 @@ package
 			}
 			else trace( "Session already instanciated." );
 		}
-		
+		/*public function get Communes():ArrayList
+		{
+			var al:ArrayList = new ArrayList();
+			//for (var key:Object in dictCommunes) {
+				// iterates through each object key
+			//}
+			for each (var value:String in dictCommunes) {
+				// iterates through each value
+				al.addItem({Commune:value});
+			}
+			return al;
+		}	*/	
 		public static function getInstance():Session 
 		{
 			return instance;
@@ -78,10 +87,6 @@ package
 		
 		public function set userName(value:String):void
 		{
-			/*if ( _userName != value  ) 
-			{
-				writeFolderXmlFile();
-			}*/
 			_userName = value;
 		}
 		
@@ -106,23 +111,7 @@ package
 		
 		public function set urlSite(value:String):void
 		{
-			/*if ( _urlSite != value ) 
-			{
-				writeFolderXmlFile();
-			}*/
 			_urlSite = value;
 		}
-
-		/*public function get communes():String
-		{
-			return _communes;
-		}
-
-		public function set communes(value:String):void
-		{
-			_communes = value;
-		}*/
-
-	
 	}
 }

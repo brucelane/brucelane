@@ -27,6 +27,7 @@ package fr.batchass
 		private var myXML:XML;
 		private var arColumns:Array = new Array();
 		private var arTemp:Array = new Array();
+		private var db:Database = Database.getInstance();
 		
 		public function Sharepoint(url:String, user:String, password:String, portalORteam:String = "portal", siteNameIfTeam:String = "")
 		{
@@ -200,7 +201,12 @@ package fr.batchass
 				{
 					sRef = "@" + arColumns[col][0][0];
 					trace(arColumns[col][0][1] + " = " + zRow[sRef]);
-					if (arColumns[col][0][1] == "Commune") session.listCommunes.addItem({Commune:zRow[sRef]});
+					//if (arColumns[col][0][1] == "Commune") session.dictCommunes[zRow[sRef]] = zRow[sRef];
+					if (arColumns[col][0][1] == "Commune")
+					{
+						db.insert( "Communes", "Commune",  zRow[sRef]);
+					}
+
 				}
 				
 			}			
