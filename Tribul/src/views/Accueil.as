@@ -3,8 +3,7 @@ import flash.events.MouseEvent;
 
 import mx.events.FlexEvent;
 
-import views.VueConnexion;
-import views.VueGeolocalisation;
+import views.*;
 
 protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
 {	
@@ -22,4 +21,8 @@ protected function cnx_clickHandler(event:MouseEvent):void
 	this.navigator.pushView(VueConnexion);
 	
 	
+}
+protected function commune_clickHandler(event:MouseEvent):void
+{
+	this.navigator.pushView(VueCommunes);
 }

@@ -4,15 +4,7 @@
 		title="Accueil"
 		creationComplete="windowedapplication1_creationCompleteHandler(event)">
 	
-	<fx:Script>
-		<![CDATA[
-			
-			
-			
-		]]>
-	</fx:Script>
-	
-	
+
 	<fx:Script source="Accueil.as" />
 	<s:VGroup x="4" y="4" width="306" height="400">
 		<s:HGroup width="297" height="62">
@@ -20,12 +12,17 @@
 			<s:Button id="activer" width="97" height="37" label="Activer"
 					  click="activer_clickHandler(event)"/>
 		</s:HGroup>
-		<s:VGroup width="294" height="105">
-			<s:HGroup width="284" height="55">
-				<s:Label width="141" height="39" text="Sharepoint" verticalAlign="middle"/>
-				<s:Button id="cnx" label="Connecter" click="cnx_clickHandler(event)"/>
-			</s:HGroup>
-		</s:VGroup>
+		
+		<s:HGroup width="284" height="55">
+			<s:Label width="141" height="39" text="Sharepoint" verticalAlign="middle"/>
+			<s:Button id="cnx" label="Connecter" click="cnx_clickHandler(event)"/>
+		</s:HGroup>
+
+		<s:HGroup width="284" height="55">
+			<s:Label width="141" height="39" text="Saisie" verticalAlign="middle"/>
+			<s:Button id="commune" label="Choix commune" click="commune_clickHandler(event)"/>
+		</s:HGroup>
+		
 		
 		<s:TextArea id="txt" width="297" height="164"/>
 	</s:VGroup>

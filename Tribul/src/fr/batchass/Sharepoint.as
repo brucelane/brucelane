@@ -73,8 +73,8 @@ package fr.batchass
 			URLRequestDefaults.authenticate = true;
 			URLRequestDefaults.setLoginCredentialsForHost(_urlsiteWithoutHttp, _user, _pwd)
 			
-			var ldr:URLLoader = new URLLoader ();
-			var adresse:URLRequest = new URLRequest (GetURL);
+			var ldr:URLLoader = new URLLoader();
+			var adresse:URLRequest = new URLRequest(GetURL);
 			adresse.authenticate = true;
 			var format:String = URLLoaderDataFormat.TEXT;
 			ldr.dataFormat = format;

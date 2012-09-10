@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark" 
-		creationComplete="windowedapplication1_creationCompleteHandler(event)" title="Connexion">
+		creationComplete="windowedapplication1_creationCompleteHandler(event)"
+		viewActivate="onViewActivate(event)"
+		title="Connexion">
 	<fx:Script source="Connexion.as" />
 	<s:VGroup x="4" y="4" width="306" height="400">
 		<s:Label text="Site"/>
-		<s:TextInput id="urlsite" text="http://www.agglo-sophia-antipolis.fr/" />
+		<s:TextInput id="urlsite" skinClass="spark.skins.mobile.TextInputSkin" text="http://www.agglo-sophia-antipolis.fr/" />
 		<s:Label text="Utilisateur"/>
-		<s:TextInput id="user" text="CASA\" />
+		<s:TextInput id="user" skinClass="spark.skins.mobile.TextInputSkin" text="CASA\" />
 		<s:Label text="Mot de passe" />
-		<s:TextInput id="pwd" displayAsPassword="true" text=""/>
+		<s:TextInput id="pwd" skinClass="spark.skins.mobile.TextInputSkin" displayAsPassword="true" text=""/>
 		<s:Button id="cnx" label="Connexion" click="cnx_clickHandler(event)"/>
-		<s:TextArea id="txt" width="297" height="164"/>
+		<s:TextArea id="txt" skinClass="spark.skins.mobile.TextInputSkin" width="297" height="164"/>
 	</s:VGroup>
 </s:View>
