@@ -1,9 +1,18 @@
+//voir CRUD  http://blogs.codes-sources.com/fabrice69/archive/2008/07/11/sharepoint-attention-l-utilisationd-de-la-m-thode-updatelistitems-du-webservice-lists-asmx.aspx
 package fr.batchass
 {
 	import flash.events.*;
 	import flash.net.*;
 	
+	import flashx.textLayout.factory.TruncationOptions;
+	
+	import mx.collections.ArrayCollection;
 	import mx.collections.ArrayList;
+	import mx.rpc.events.FaultEvent;
+	import mx.rpc.events.ResultEvent;
+	import mx.rpc.http.HTTPService;
+	import mx.rpc.soap.Operation;
+	import mx.rpc.soap.WebService;
 
 	//List Id configuration 
 	//update listid to appropriate list id in sharepoint
@@ -28,7 +37,18 @@ package fr.batchass
 		private var arColumns:Array = new Array();
 		private var arTemp:Array = new Array();
 		private var db:Database = Database.getInstance();
-		
+		// webservice
+		private var httpService:HTTPService;
+		private var webService:WebService;
+		private var operation:Operation;
+		private var operations:Object = new Object();
+		[Bindable]
+		private var sharePointList:ArrayCollection;
+		[Bindable]
+		private var siteAddress:String = session.urlSite;
+		/*private var list:String = "7A38E1D8-83F8-4A27-843A-4038D669CD66";
+		private var view:String = "4A2F9D51-ACB0-4EA4-B9CA-99593C9D5E8D";*/
+				
 		public function Sharepoint(url:String, user:String, password:String, portalORteam:String = "portal", siteNameIfTeam:String = "")
 		{
 			dispatcher = new EventDispatcher(this);
@@ -48,6 +68,34 @@ package fr.batchass
 			_siteType = portalORteam;
 			_user = user;
 			_pwd = password;
+			httpService = new HTTPService();
+			httpService.url = url + "_vti_bin/owssvr.dll";
+			httpService.showBusyCursor = true;
+			httpService.method = "POST";
+			httpService.addEventListener(ResultEvent.RESULT, searchResultHandler);
+			httpService.addEventListener(FaultEvent.FAULT, faultHandler);
+			/*httpService.setRemoteCredentials()
+			httpService.request =<Cmd>Display</Cmd>
+		<List>{list}</List>
+		<View>{view}</View>
+		<Query>ID Title Modified</Query>
+		<XMLDATA>TRUE</XMLDATA>;*/
+			
+			webService = new WebService();
+			webService.wsdl = url + "_vti_bin/Lists.asmx?WSDL";
+			webService.useProxy = false;
+			
+			operation = new Operation(null, "UpdateListItems");
+			operation.resultFormat = "e4x";
+			operation.addEventListener(ResultEvent.RESULT, searchResultHandler);
+			operation.addEventListener(FaultEvent.FAULT, faultHandler);
+			operations["UpdateListItems"] = operation;
+			
+			webService.operations = operations;
+			/*<s:operation name="UpdateListItems"
+			resultFormat="e4x"
+			fault="faultHandler(event)"
+			result="updateItemResultHandler(event)" />*/
 		}
 		
 		//Connection et recup liste Listes
@@ -62,7 +110,6 @@ package fr.batchass
 			if(_siteType == "portal")
 			{
 				GetURL += "_vti_bin/owssvr.dll?Cmd=Display&List=" + listesListId + "&XMLDATA=TRUE";
-				//GetURL += "_vti_bin/ListData.svc/Listes";
 			}
 			else
 			{ //team
@@ -159,17 +206,19 @@ package fr.batchass
 			{
 				var listGuid:String;
 				var name:String;
+				var view:String;
 				for (var col:Number = 0; col < arColumns.length; col++)
 				{
 					sRef = "@" + arColumns[col][0][0];
 					trace(arColumns[col][0][1] + " = " + zRow[sRef]);
 					if (arColumns[col][0][1] == "Titre") listGuid = zRow[sRef];
 					if (arColumns[col][0][1] == "Description") name = zRow[sRef];					
+					if (arColumns[col][0][1] == "View") view = zRow[sRef];					
 				}
-				if ( listGuid && name )
+				if ( listGuid && name && view )
 				{
-					//session.dictListes.addItem({guid:listGuid,nom:name});
-					session.dictListes[name]=listGuid;
+					session.dictListes[name] = listGuid;
+					session.dictViews[name] = view;
 					//if (name=="Communes") session.communes = listGuid;
 				}
 			}		
@@ -237,6 +286,74 @@ package fr.batchass
 			}
 			
 		}	
+		private function cleanText( texttoclean:String ):String
+		{ 
+			var temp:String = ""; 
+			
+			var pattern:RegExp = /&/g; 
+			temp = texttoclean.replace(pattern,"&amp;");
+			pattern = /\'/g; 
+			temp = temp.replace(pattern,"&apos;");
+			pattern = /\"/g; 
+			temp = temp.replace(pattern,"&quot;");
+			pattern = />/g; 
+			temp = temp.replace(pattern,"&gt;");
+			pattern = /</g; 
+			temp = temp.replace(pattern,"&lt;");
+	
+			return temp; 
+		}
+		private function searchItems():void
+		{
+			httpService.send();
+		}
+		private function faultHandler(event:FaultEvent):void
+		{
+			trace(event.fault.message);
+		}
+		private function searchResultHandler(event:ResultEvent):void
+		{
+			if(event.result.xml.data)
+			{
+				var rows:Object = event.result.xml.data.row;
+				sharePointList = rows is ArrayCollection? rows as ArrayCollection: new ArrayCollection([rows]);
+			}
+		}
+		public function updateItem( list:String, id:String, title:String ):void
+		{
+			var request:String =  "<Batch OnError='Continue' ListVersion='1' ViewName='"+ session.dictViews[list] +"'> \n"+
+				"  <Method ID='1' Cmd='Update'>                                        \n"+
+				"    <Field Name='ID'>" + id + "</Field>                         \n"+
+				"    <Field Name='Title'>" + cleanText(title) + "</Field>                   \n"+
+				"  </Method>                                                           \n"+
+				"</Batch>                                                              \n";
+			webService.UpdateListItems.send(list, new XML(request));
+		}
+		public function insertItem( list:String, id:String, title:String ):void
+		{
+			var request:String =  "<Batch OnError='Continue' ListVersion='1' ViewName='"+ session.dictViews[list] +"'> \n"+
+				"  <Method ID='1' Cmd='New'>                                        \n"+
+				"    <Field Name='ID'>" + id + "</Field>                         \n"+
+				"    <Field Name='Title'>" + cleanText(title) + "</Field>                   \n"+
+				"  </Method>                                                           \n"+
+				"</Batch>                                                              \n";
+			webService.UpdateListItems.send(list, new XML(request));
+		}
+		public function deleteItem( list:String, id:String ):void
+		{
+			var request:String =  "<Batch OnError='Continue' ListVersion='1' ViewName='"+ session.dictViews[list] +"'> \n"+
+				"  <Method ID='1' Cmd='Delete'>                                        \n"+
+				"    <Field Name='ID'>" + id + "</Field>                         \n"+
+				"  </Method>                                                           \n"+
+				"</Batch>                                                              \n";
+			webService.UpdateListItems.send(list, new XML(request));
+		}
+		private function updateItemResultHandler(event:ResultEvent):void
+		{
+			trace(event.result);
+			//allItems.selectedItem.ows_Title = titleField.text;
+			sharePointList.refresh();
+		}
 		public function addEventListener(type:String, listener:Function, useCapture:Boolean=false, priority:int=0, useWeakReference:Boolean=false):void
 		{
 			dispatcher.addEventListener(type, listener, useCapture, priority);
