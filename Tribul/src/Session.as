@@ -24,6 +24,7 @@ package
 
 		public var dictCommunes:Dictionary = new Dictionary();
 		public var dictListes:Dictionary = new Dictionary();
+		public var dictViews:Dictionary = new Dictionary();
 		
 		public function Session()
 		{
