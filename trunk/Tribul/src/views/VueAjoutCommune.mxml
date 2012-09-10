@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="VueAjoutCommune">
+	<fx:Declarations>
+		<s:HTTPService id="httpService"
+					   url="{siteAddress}_vti_bin/owssvr.dll"
+					   showBusyCursor="true"
+					   method="POST"
+					   result="searchResultHandler(event)"
+					   fault="faultHandler(event)">
+			<s:request>
+				<Cmd>Display</Cmd>
+				<List>{list}</List>
+				<View>{view}</View>
+				<Query>ID Title Modified</Query>
+				<XMLDATA>TRUE</XMLDATA>
+			</s:request>
+		</s:HTTPService>
+		<s:WebService id="webService"
+						  wsdl="{siteAddress}_vti_bin/Lists.asmx?WSDL"
+						  
+						  useProxy="false">
+			<s:operation name="UpdateListItems"
+							 resultFormat="e4x"
+							 fault="faultHandler(event)"
+							 result="updateItemResultHandler(event)" />
+		</s:WebService>
+	</fx:Declarations>
+	<fx:Script source="AjoutCommune.as" />
+	<s:VGroup horizontalAlign="left">
+			
+			<s:Button label="search" click="searchItems()"/>
+			<s:DataGrid id="allItems" dataProvider="{sharePointList}" width="100%">
+				<s:columns>
+					<s:ArrayList>
+						<s:GridColumn dataField="ows_ID"       headerText="Id"       width="15"/>
+						<s:GridColumn dataField="ows_Title"    headerText="Title"    width="90"/>
+						<s:GridColumn dataField="ows_Modified" headerText="Modified" width="50"/>
+					</s:ArrayList>
+				</s:columns>
+			</s:DataGrid>
+			<s:Form >
+				<s:FormItem label="Id">
+					<s:Label id="idField" text="{allItems.selectedItem.ows_ID}"/>
+				</s:FormItem>
+				<!--<s:FormItem label="Modified">
+					<s:Label text="{allItems.selectedItem.ows_Modified}"/>
+				</s:FormItem>-->
+				<s:FormItem label="Title">
+					<s:TextInput id="titleField" text="{allItems.selectedItem.ows_Title}" width="300"/>
+				</s:FormItem>
+			</s:Form>
+			<s:Button label="Update" click="updateItem()"/>
+
+	</s:VGroup>
+</s:View>

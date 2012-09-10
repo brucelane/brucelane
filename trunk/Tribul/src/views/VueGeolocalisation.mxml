@@ -2,13 +2,7 @@
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		creationComplete="windowedapplication1_creationCompleteHandler(event)"
-		title="VueGeolocalisation">
-	
-	<fx:Script>
-		<![CDATA[
-			
-		]]>
-	</fx:Script>
+		title="Geolocalisation">
 	
 	
 	<fx:Script source="Geolocalisation.as" />
@@ -20,6 +14,6 @@
 		</s:HGroup>
 		<s:Button id="carte" label="Carte" click="carte_clickHandler(event)"/>
 		
-		<s:TextArea id="txt" width="297" height="164"/>
+		<s:TextArea id="txt" skinClass="spark.skins.mobile.TextInputSkin" width="297" height="164"/>
 	</s:VGroup>
 </s:View>

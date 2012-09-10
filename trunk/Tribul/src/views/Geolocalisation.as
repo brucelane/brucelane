@@ -14,13 +14,18 @@ private var long:String;
 protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
 {	
 	
-	txt.text += "Geolocation: " + Geolocation.isSupported;
+	txt.text += "Geolocation: " + Geolocation.isSupported + " en pause: " + geolocation.muted;
 	if (Geolocation.isSupported)
 	{
 		geolocation =  new Geolocation();
-		geolocation.setRequestedUpdateInterval(10000);
+		geolocation.setRequestedUpdateInterval(1000);
 		geolocation.addEventListener( GeolocationEvent.UPDATE, onTravel );
 		geolocation.addEventListener( StatusEvent.STATUS, onStatus );
+	}
+	else
+	{
+		
+		
 	}
 }
 
@@ -33,6 +38,7 @@ private function onTravel(event:GeolocationEvent):void
 private function onStatus(event:StatusEvent):void
 {
 	actif.text += "Statut " + event.code;
+	
 }
 protected function carte_clickHandler(event:MouseEvent):void
 {

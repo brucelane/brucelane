@@ -8,6 +8,7 @@ import mx.events.FlexEvent;
 import mx.rpc.soap.mxml.WebService;
 
 import spark.components.View;
+import spark.events.ViewNavigatorEvent;
 
 import views.VueAccueil;
 import views.VueCommunes;
@@ -16,11 +17,18 @@ private var session:Session = Session.getInstance();
 
 private var sp:Sharepoint;
 
-protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
-{	
+protected function onViewActivate(event:ViewNavigatorEvent):void
+{
+	session = Session.getInstance();
 	urlsite.text = session.urlSite;
 	user.text = session.userName;
 	pwd.text = session.password;
+}
+protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
+{	
+	/*urlsite.text = session.urlSite;
+	user.text = session.userName;
+	pwd.text = session.password;*/
 	
 }
 protected function cnx_clickHandler(event:MouseEvent):void
