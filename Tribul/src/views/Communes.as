@@ -33,7 +33,6 @@ protected function Communes_creationCompleteHandler(event:FlexEvent):void
 private function bindCommunes(event:DonneesEvent):void
 {
 	Util.log("TYPE: " + event.type + "\nTARGET: " + event.target + "\n");
-	Util.log(event.toString());
 	communes = db.acCommunes;
 }
 protected function spinCommune_changeHandler(event:IndexChangeEvent):void
@@ -41,13 +40,10 @@ protected function spinCommune_changeHandler(event:IndexChangeEvent):void
 	if (event.currentTarget.selectedItem)
 	{
 		commune = event.currentTarget.selectedItem.commune;
-		txt.text += "Event: " + event.type + " (selectedItem: " + event.currentTarget.selectedItem.commune + ")\n";
+		txt.text = "Commune: " + event.currentTarget.selectedItem.commune;
 	}
 }
-protected function Ajout_clickHandler(event:MouseEvent):void
-{
-	this.navigator.pushView(VueAjoutCommune);
-}
+
 protected function valider_clickHandler(event:MouseEvent):void
 {
 	this.navigator.pushView(VueNomVoie, commune);

@@ -2,12 +2,11 @@
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		title="Accueil"
-		creationComplete="windowedapplication1_creationCompleteHandler(event)">
-	
+		>
 
 	<fx:Script source="Accueil.as" />
 	<s:VGroup x="4" y="4" width="306" height="400">
-		<s:HGroup width="297" height="62">
+		<s:HGroup width="297" height="55">
 			<s:Label width="141" height="39" text="Géolocalisation" verticalAlign="middle"/>
 			<s:Button id="activer" width="97" height="37" label="Activer"
 					  click="activer_clickHandler(event)"/>
@@ -19,10 +18,14 @@
 		</s:HGroup>
 
 		<s:HGroup width="284" height="55">
+			<s:Label width="141" height="39" text="Import base" verticalAlign="middle"/>
+			<s:Button id="importer" label="Importer" click="importer_clickHandler(event)"/>
+		</s:HGroup>
+		
+		<s:HGroup width="284" height="55">
 			<s:Label width="141" height="39" text="Saisie" verticalAlign="middle"/>
 			<s:Button id="commune" label="Choix commune" click="commune_clickHandler(event)"/>
 		</s:HGroup>
-		
 		
 		<s:TextArea id="txt" width="297" height="164"/>
 	</s:VGroup>

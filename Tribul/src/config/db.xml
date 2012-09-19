@@ -1,5 +1,6 @@
 <tables>
   <table nom="communes">
-      <champ nom="commune" cle="PK" />
+      <champ nom="code_insee" cle="PK" />
+      <champ nom="commune" />
   </table>
 </tables>
