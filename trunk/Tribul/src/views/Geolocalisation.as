@@ -14,7 +14,7 @@ private var long:String;
 protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
 {	
 	
-	txt.text += "Geolocation: " + Geolocation.isSupported + " en pause: " + geolocation.muted;
+	//txt.text += "Geolocation: " + Geolocation.isSupported + " en pause: " + geolocation.muted;
 	if (Geolocation.isSupported)
 	{
 		geolocation =  new Geolocation();
