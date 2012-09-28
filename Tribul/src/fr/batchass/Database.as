@@ -375,8 +375,7 @@ package fr.batchass
 				var ordre_ref_bosch_fk:int = -1;
 				Util.log("ImportCsv, nombre de lignes: " + lignes.length );					
 				for each (var ligne:String in lignes)
-				{
-					
+				{					
 					var champs:Array = ligne.split( ";" );
 					if (!champsTrouves)
 					{				
@@ -416,6 +415,7 @@ package fr.batchass
 						// ce sont des donnees
 						var ordreValeur:int = 0;
 						var nombreValeurs:int = 0;
+						var code_insee:String = "";
 
 						premiereValeur = true;
 						insertValeurs = "";
@@ -431,6 +431,21 @@ package fr.batchass
 								{
 									insertValeurs += ",";	
 								}
+							/*
+							<table nom="voies">
+							<champ nom="code_rivoli" cle="PK" />
+							<champ nom="nom_voie" />
+							<champ nom="code_insee_commune" cle="FK" cle_etrangere="communes(code_insee)" />
+							</table>
+							*/
+								if (nomTable == "voies"  && valeur.substr(0, 2) == "06")
+								{
+									code_insee = valeur.substr(0, 5);
+								}
+								if (nomTable == "voies"  && nombreValeurs == 2)
+								{
+									valeur = code_insee;
+								}
 								insertValeurs += '"' + valeur + '"';	
 								
 								nombreValeurs++;
@@ -440,7 +455,6 @@ package fr.batchass
 						}//for
 						if ( nombreChamps == nombreValeurs )
 						{
-							
 							var stmt:SQLStatement = new SQLStatement();
 							//stmt.addEventListener( SQLEvent.RESULT, insere );
 							stmt.addEventListener( SQLErrorEvent.ERROR, errorHandler );
@@ -452,7 +466,7 @@ package fr.batchass
 									insertValeurs +
 									")";
 													
-							//Util.log("insert1: "+stmt.text);
+							Util.log("insert: "+stmt.text);
 							//gerer erreur SQLError: 'Error #3115: SQL Error.', details:'near '101': syntax error', operation:'execute', detailID:'2003'
 							stmt.execute();
 						}//if
