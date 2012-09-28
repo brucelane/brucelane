@@ -3,4 +3,9 @@
       <champ nom="code_insee" cle="PK" />
       <champ nom="commune" />
   </table>
+  <table nom="voies">
+      <champ nom="code_rivoli" cle="PK" />
+      <champ nom="nom_voie" />
+      <champ nom="code_insee_commune" cle="FK" cle_etrangere="communes(code_insee)" />
+  </table>
 </tables>
