@@ -27,6 +27,7 @@ package fr.batchass
 		private var sqlAsyncConn:SQLConnection;
 		private var sqlFile:File;
 		private var _acCommunes:ArrayList;
+		private var _acNomVoies:ArrayList;
 
 		private var defaultDbXmlPath:String = 'config' + File.separator + 'db.xml';
 		public var cheminBase:String;
@@ -78,7 +79,7 @@ package fr.batchass
 			}
 			Util.log('Ouverture: ' + folderPath);
 			sqlAsyncConn = new SQLConnection();
-			sqlAsyncConn.addEventListener( SQLEvent.OPEN, verifieTables );
+			sqlAsyncConn.addEventListener( SQLEvent.OPEN, baseOuverte );
 			sqlAsyncConn.addEventListener( SQLErrorEvent.ERROR, errorHandler );
 			sqlAsyncConn.openAsync( sqlFile, SQLMode.CREATE );
 		}
@@ -109,7 +110,7 @@ package fr.batchass
 					Util.log( "copie tribul.sqlite erreur:" + error.message );
 				}
 				sqlAsyncConn = new SQLConnection();
-				sqlAsyncConn.addEventListener( SQLEvent.OPEN, verifieTables );
+				sqlAsyncConn.addEventListener( SQLEvent.OPEN, baseOuverte );
 				sqlAsyncConn.addEventListener( SQLErrorEvent.ERROR, errorHandler );
 				sqlAsyncConn.openAsync( sqlFile, SQLMode.CREATE );
 
@@ -152,11 +153,11 @@ package fr.batchass
 			stmt.execute();			
 			var result:SQLResult = stmt.getResult();
 		}
-		private function verifieTables( event:SQLEvent ):void
+		private function baseOuverte( event:SQLEvent ):void
 		{
-			Util.log("verifieTables" );	
-			creeTables(true);				
-		}		
+			Util.log("baseOuverte" );	
+			dispatchEvent( new DonneesEvent(DonneesEvent.ON_OPEN,"") )				
+		}				
 		public function creeTables(suppression:Boolean):void
 		{
 			Util.log( "creeTables: " + defaultDbXmlPath + " suppression: " + suppression );
@@ -200,33 +201,56 @@ package fr.batchass
 				} //for
 			}
 		}
+		/* marche pas
+		public function tables_master():void
+		{
+			Util.log( "tables_master" );	
+			var st:SQLStatement = new SQLStatement();
+			st.addEventListener( SQLEvent.RESULT, master );
+			st.sqlConnection = sqlAsyncConn;
+			st.text = "SELECT name FROM sqlite_master WHERE type='table'";	
+			st.execute();
+		}
+		private function master( event:SQLEvent ):void
+		{
+			var st:SQLStatement = SQLStatement(event.target);
+			var result:SQLResult = st.getResult();
+			st.removeEventListener( SQLEvent.RESULT, master );
+			if (result.data)
+			{
+				var numResults:int = result.data.length;
+				var names:String = "";
+				Util.log('master, nb: ' + numResults.toString() );
+				for (var i:int = 0; i < numResults; i++)
+				{
+					var row:Object = result.data[i];
+					var name:String = row.name;
+					names += name + "\n"
+					Util.log( "Table:" + name );
+				}
+				dispatchEvent( new DonneesEvent(DonneesEvent.ON_MASTER, names) );
+
+			}
+		}*/
 		private function verifieExistenceTable(nomTable:String, table:XML):void
 		{
 			Util.log( "verifieExistenceTable" );	
-			//var ev:SQLEvent = new SQLEvent(SQLEvent.RESULT);
 			var st:SQLStatement = new SQLStatement();
 			//test si base ouverte
-			Util.log("SQL: base ouverte:" + sqlAsyncConn.connected);
+			//Util.log("SQL: base ouverte:" + sqlAsyncConn.connected);
 			st.addEventListener( SQLEvent.RESULT, existe );
 			st.addEventListener( SQLErrorEvent.ERROR, existePas );		
 			st.sqlConnection = sqlAsyncConn;
 			st.text = "SELECT COUNT(*) AS compte FROM " + nomTable + " /*" + table.toString() + "*/";	
 			st.execute();
 		}
-		private function existe( event:SQLEvent )
+		private function existe( event:SQLEvent ):void
 		{
-			Util.log( "existe" );	
-			var nomTable:String = "";
+			//var nomTable:String = "";
 			var st:SQLStatement = SQLStatement(event.target);
 			var result:SQLResult = st.getResult();
 			st.removeEventListener( SQLEvent.RESULT, existe );
-			st.removeEventListener( SQLErrorEvent.ERROR, existePas );		
-			if ( event.currentTarget && event.currentTarget.text && event.currentTarget.parameters.table )
-			{
-				nomTable = event.currentTarget.parameters.table;
-				Util.log( "existe:" + nomTable );
-			}
-			
+			st.removeEventListener( SQLErrorEvent.ERROR, existePas );	
 			if (result.data)
 			{
 				var numResults:int = result.data.length;
@@ -235,25 +259,48 @@ package fr.batchass
 				{
 					var row:Object = result.data[i];
 					var count:String = row.compte;
-					Util.log("SQL: Table found " + nomTable + " count:"+ count);
-					var cnt:int = count as int;
-					Util.log("cnt:"+ cnt);
-					if ( cnt > 0 ) 
+					var cnt:int = int(count);
+					Util.log( "SQL count:" + count + " cnt:"+ cnt );
+				}
+			}
+			/*if ( event.currentTarget && event.currentTarget.text )
+			{
+				nomTable = event.currentTarget.parameters.table;
+				if ( nomTable.length> 0 )
+				{
+					Util.log( "existe:" + nomTable );
+					if (result.data)
 					{
-					}
+						var numResults:int = result.data.length;
+						Util.log('existe, nb: ' + numResults.toString() );
+						for (var i:int = 0; i < numResults; i++)
+						{
+							var row:Object = result.data[i];
+							var count:String = row.compte;
+							Util.log("SQL: Table found " + nomTable + " count:"+ count);
+							var cnt:int = int(count);
+							Util.log("cnt:"+ cnt);
+							if ( cnt > 0 ) 
+							{
+							}
+							else
+							{
+								
+							}
+						}
+					}	
 					else
 					{
-						
-					}
+						//test si base ouverte
+						Util.log("SQL: base ouverte:" + sqlAsyncConn.connected);
+						Util.log("SQL: base en transaction:" + sqlAsyncConn.inTransaction);
+					}					
 				}
-			}	
-			else
-			{
-				//test si base ouverte
-				Util.log("SQL: base ouverte:" + sqlAsyncConn.connected);
-				Util.log("SQL: base en transaction:" + sqlAsyncConn.inTransaction);
-			}
-			
+				else
+				{
+					Util.log( "existe, nomTable vide" );
+				}
+			}*/			
 		}
 		
 		private function existePas( error:SQLErrorEvent ):void
@@ -269,6 +316,8 @@ package fr.batchass
 			var st:SQLStatement = SQLStatement(error.target);
 			var sqlText:String = st.text;
 			var tableXML:XML = new XML( sqlText.substring( sqlText.lastIndexOf("/*") + 2, sqlText.length - 2 ) );
+			st.removeEventListener( SQLEvent.RESULT, existe );
+			st.removeEventListener( SQLErrorEvent.ERROR, existePas );		
 
 			creeTable( tableXML );
 		}
@@ -328,7 +377,7 @@ package fr.batchass
 			stmt.execute();
 			//importCsv( nom, champsAcreer );	
 		}
-		private function succesCreationTable( event:SQLEvent )
+		private function succesCreationTable( event:SQLEvent ):void
 		{
 			var st:SQLStatement = SQLStatement(event.target);
 			var result:SQLResult = st.getResult();
@@ -495,14 +544,14 @@ package fr.batchass
 			//gerer erreur SQLError: 'Error #3115: SQL Error.', details:'near '101': syntax error', operation:'execute', detailID:'2003'
 			stmt.execute();
 		}
-
+		//communes
 		public function getCommunes():void
 		{
 			var stmt:SQLStatement = new SQLStatement();
 			stmt.addEventListener( SQLEvent.RESULT, remplitCommunes );
 			stmt.addEventListener( SQLErrorEvent.ERROR, errorHandler );
 			stmt.sqlConnection = sqlAsyncConn;
-			stmt.text = 'SELECT DISTINCT commune FROM communes ORDER BY commune';
+			stmt.text = 'SELECT DISTINCT * FROM communes ORDER BY commune';
 
 			stmt.execute();
 		}	
@@ -518,12 +567,46 @@ package fr.batchass
 				for (var i:int = 0; i < numResults; i++)
 				{
 					var row:Object = result.data[i];
-					var commune:String = row.commune;
-					if ( commune.length > 0 ) acCommunes.addItem({commune: row.commune});
+					var cmn:String = row.commune;
+					var code:String = row.code_insee;
+					if ( cmn.length > 0 && code.length>0 ) acCommunes.addItem({commune: cmn,code_insee: code});
+					
 				}
 			}	
 			dispatchEvent( new Event(Event.COMPLETE) );							
 			dispatchEvent( new DonneesEvent(DonneesEvent.ON_COMMUNES, acCommunes) );
+		}
+		//nom voies
+		public function getNomVoies( code_insee:String ):void
+		{
+			var stmt:SQLStatement = new SQLStatement();
+			stmt.addEventListener( SQLEvent.RESULT, remplitNomVoies );
+			stmt.addEventListener( SQLErrorEvent.ERROR, errorHandler );
+			stmt.sqlConnection = sqlAsyncConn;
+			stmt.text = 'SELECT * FROM voies ORDER BY nom_voie WHERE code_insee_commune=' + code_insee;
+
+			stmt.execute();
+		}	
+		private function remplitNomVoies( event:SQLEvent ):void
+		{
+			var stmt:SQLStatement = SQLStatement(event.target);
+			var result:SQLResult = stmt.getResult();
+			acNomVoies = new ArrayList();	
+			if (result.data)
+			{
+				var numResults:int = result.data.length;
+				Util.log('remplitNomVoies, nb: ' + numResults.toString() );
+				for (var i:int = 0; i < numResults; i++)
+				{
+					var row:Object = result.data[i];
+					var rivoli:String = row.code_rivoli;
+					var voie:String = row.nom_voie;
+					if ( rivoli.length > 0 && voie.length>0 ) acCommunes.addItem({nomvoie: voie,code_rivoli: rivoli});
+					
+				}
+			}	
+			dispatchEvent( new Event(Event.COMPLETE) );							
+			dispatchEvent( new DonneesEvent(DonneesEvent.ON_NOMVOIES, acNomVoies) );
 		}
 
 
@@ -584,6 +667,17 @@ package fr.batchass
 		public function set acCommunes(value:ArrayList):void
 		{
 			_acCommunes = value;
+		}
+
+		[Bindable]
+		public function get acNomVoies():ArrayList
+		{
+			return _acNomVoies;
+		}
+
+		public function set acNomVoies(value:ArrayList):void
+		{
+			_acNomVoies = value;
 		}
 
 

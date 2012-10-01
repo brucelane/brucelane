@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark" 
-		viewActivate="onViewActivate(event)"
 		creationComplete="Communes_creationCompleteHandler(event)"
 		title="Communes">
 
 	<fx:Script source="Communes.as" />
 <s:VGroup>
-	<s:SpinnerListContainer id="spinCommunes" x="27" y="17" width="280" height="200">
+	<s:SpinnerListContainer id="spinCommunes" x="27" y="17" width="280" height="300">
 		<s:SpinnerList id="spinCommune" width="280" height="100%"
 					   change="spinCommune_changeHandler(event)" 
 					   labelField="commune" dataProvider="{communes}" selectedIndex="1">
@@ -15,8 +14,7 @@
 		</s:SpinnerList>
 	</s:SpinnerListContainer>
 	
-	<s:TextArea id="txt" skinClass="spark.skins.mobile.TextInputSkin" x="27" y="260" width="280" height="181"/>
-	<!--<s:Button id="ajout" label="Ajout commune"  click="Ajout_clickHandler(event)" />-->
+	<s:TextArea id="txt" skinClass="spark.skins.mobile.TextInputSkin" x="27" y="260" width="280" height="100"/>
 	<s:Button id="valider" label="Valider"  click="valider_clickHandler(event)" />
 </s:VGroup>
 </s:View>
