@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		xmlns:s="library://ns.adobe.com/flex/spark" title="Nom de la voie">
-	<fx:Declarations>
-		<!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
-	</fx:Declarations>
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		viewActivate="NomVoie_viewActivateHandler(event)"
+		creationComplete="NomVoie_creationCompleteHandler(event)"
+		title="Nom de la voie">
+	
+	<fx:Script source="NomVoie.as" />
+	
+	<s:VGroup>
+		<s:SpinnerListContainer id="spinNomVoies" x="27" y="17" width="280" height="200">
+			<s:SpinnerList id="spinNomVoie" width="280" height="100%"
+						   change="spinNomVoie_changeHandler(event)" 
+						   labelField="NomVoie" dataProvider="{nomVoies}" selectedIndex="1">
+				
+			</s:SpinnerList>
+		</s:SpinnerListContainer>
+		
+		<s:TextArea id="txt" skinClass="spark.skins.mobile.TextInputSkin" x="27" y="260" width="280" height="181"/>
+		<!--<s:Button id="ajout" label="Ajout NomVoie"  click="Ajout_clickHandler(event)" />-->
+		<s:Button id="valider" label="Valider"  click="valider_clickHandler(event)" />
+	</s:VGroup>
 </s:View>

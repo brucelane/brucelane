@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		viewActivate="VueImport_viewActivateHandler(event)"
+		title="Communes">
+	
+	<fx:Script>
+		<![CDATA[
+			import events.DonneesEvent;
+			
+			import fr.batchass.Database;
+			import fr.batchass.Util;
+			
+			import spark.events.ViewNavigatorEvent;
+			
+			private var db:Database;	
+			
+			protected function retour_clickHandler(event:MouseEvent):void
+			{
+				this.navigator.pushView(VueAccueil);
+				
+			}
+			
+			protected function VueImport_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				db = Database.getInstance();
+				db.addEventListener( DonneesEvent.ON_OPEN, baseOuverte );
+			}
+			private function baseOuverte(event:DonneesEvent):void
+			{
+				Util.log("TYPE: " + event.type + "\nTARGET: " + event.target + "\n");
+				txt.text = "Base ouverte";
+			}	
+			
+			protected function verif_clickHandler(event:MouseEvent):void
+			{
+				db.creeTables(false);
+			}
+			
+		]]>
+	</fx:Script>
+	
+<s:VGroup>
+	<s:TextArea id="txt" skinClass="spark.skins.mobile.TextInputSkin" x="27" y="260" width="280" height="300"/>
+	<s:Button id="verif" label="Verifier tables" click="verif_clickHandler(event)" />
+	<s:Button id="retour" label="Retour" click="retour_clickHandler(event)" />
+</s:VGroup>
+</s:View>

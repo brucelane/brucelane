@@ -14,16 +14,11 @@ import spark.events.ViewNavigatorEvent;
 import views.*;
 
 private var db:Database = Database.getInstance();
-private var commune:String;
+private var code:String;
 
 [Bindable]
 private var communes:ArrayList;
 
-
-protected function onViewActivate(event:ViewNavigatorEvent):void
-{
-	
-}
 protected function Communes_creationCompleteHandler(event:FlexEvent):void
 {
 	db.addEventListener( DonneesEvent.ON_COMMUNES, bindCommunes );
@@ -39,14 +34,14 @@ protected function spinCommune_changeHandler(event:IndexChangeEvent):void
 {
 	if (event.currentTarget.selectedItem)
 	{
-		commune = event.currentTarget.selectedItem.commune;
-		txt.text = "Commune: " + event.currentTarget.selectedItem.commune;
+		txt.text = "Commune: " + event.currentTarget.selectedItem.commune + " code:" + event.currentTarget.selectedItem.code;
+		code = event.currentTarget.selectedItem.code;
 	}
 }
 
 protected function valider_clickHandler(event:MouseEvent):void
 {
-	this.navigator.pushView(VueNomVoie, commune);
+	this.navigator.pushView(VueNomVoie, code);
 	
 }
 

@@ -10,15 +10,11 @@ import views.*;
 
 protected function activer_clickHandler(event:MouseEvent):void
 {
-	this.navigator.pushView(VueGeolocalisation);
-	
+	this.navigator.pushView(VueGeolocalisation);	
 }
 protected function cnx_clickHandler(event:MouseEvent):void
 {
-	
-	this.navigator.pushView(VueConnexion);
-	
-	
+	this.navigator.pushView(VueConnexion);	
 }
 protected function commune_clickHandler(event:MouseEvent):void
 {
@@ -26,7 +22,6 @@ protected function commune_clickHandler(event:MouseEvent):void
 }
 protected function importer_clickHandler(event:MouseEvent):void
 {
-	var db:Database = Database.getInstance();
-
+	this.navigator.pushView(VueImport);
 	
 }
