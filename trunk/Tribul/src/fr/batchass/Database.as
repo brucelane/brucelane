@@ -26,8 +26,8 @@ package fr.batchass
 		private static var instance:Database;
 		private var sqlAsyncConn:SQLConnection;
 		private var sqlFile:File;
-		private var _acCommunes:ArrayList;
-		private var _acNomVoies:ArrayList;
+		private var _acCommunes:ArrayList = new ArrayList();
+		private var _acNomVoies:ArrayList = new ArrayList();
 
 		private var defaultDbXmlPath:String = 'config' + File.separator + 'db.xml';
 		public var cheminBase:String;
@@ -384,14 +384,14 @@ package fr.batchass
 			var sqlText:String = st.text;
 			var nomTable:String = sqlText.substr( sqlText.lastIndexOf("--") + 2 );
 
-			importCsv( nomTable );				
+			//importCsv( nomTable );				
 		}
-		private function importCsv(nomTable:String):void
+		public function importCsv(nomTable:String, cheminFichier:String):void
 		{
 			var tableauChamps:Array = champsDictionary[nomTable];
 
-
-			var csvFile:String = cheminBase + File.separator + nomTable + ".csv";
+			//var csvFile:String = cheminBase + File.separator + nomTable + ".csv";
+			var csvFile:String = cheminFichier;
 			var csv:File = File.applicationStorageDirectory.resolvePath(csvFile);
 			Util.log("ImportCsv: " + csvFile );					
 			if (!csv.exists)
@@ -422,6 +422,7 @@ package fr.batchass
 				var insertValeurs:String = "";
 				var nombreChamps:int=0;
 				var ordre_ref_bosch_fk:int = -1;
+				var cmn:String = "";
 				Util.log("ImportCsv, nombre de lignes: " + lignes.length );					
 				for each (var ligne:String in lignes)
 				{					
@@ -487,6 +488,14 @@ package fr.batchass
 							<champ nom="code_insee_commune" cle="FK" cle_etrangere="communes(code_insee)" />
 							</table>
 							*/
+								if (nomTable == "communes"  && ordreValeur ==0)
+								{
+									cmn = valeur;
+								}
+								if (nomTable == "communes"  && valeur.substr(0, 2) == "06")
+								{
+									code_insee = valeur.substr(0, 5);
+								}
 								if (nomTable == "voies"  && valeur.substr(0, 2) == "06")
 								{
 									code_insee = valeur.substr(0, 5);
@@ -504,20 +513,30 @@ package fr.batchass
 						}//for
 						if ( nombreChamps == nombreValeurs )
 						{
-							var stmt:SQLStatement = new SQLStatement();
-							//stmt.addEventListener( SQLEvent.RESULT, insere );
-							stmt.addEventListener( SQLErrorEvent.ERROR, errorHandler );
-							stmt.sqlConnection = sqlAsyncConn;
-							stmt.text =
-									"INSERT INTO "+ nomTable + " (" + 
-									insertChamps +
-									") VALUES (" + 
-									insertValeurs +
-									")";
-													
-							Util.log("insert: "+stmt.text);
-							//gerer erreur SQLError: 'Error #3115: SQL Error.', details:'near '101': syntax error', operation:'execute', detailID:'2003'
-							stmt.execute();
+							var trouve:Boolean = false;
+							for each (var acItem:Object in acCommunes)
+							{
+								if (acItem.code_insee == code_insee) trouve = true;
+							}
+							if (!trouve)
+							{
+								if ( cmn.length > 0 && code_insee.length>0 ) acCommunes.addItem({commune: cmn,code_insee: code_insee});
+								var stmt:SQLStatement = new SQLStatement();
+								//stmt.addEventListener( SQLEvent.RESULT, insere );
+								stmt.addEventListener( SQLErrorEvent.ERROR, errorHandler );
+								stmt.sqlConnection = sqlAsyncConn;
+								stmt.text =
+										"INSERT INTO "+ nomTable + " (" + 
+										insertChamps +
+										") VALUES (" + 
+										insertValeurs +
+										")";
+														
+								Util.log("insert: "+stmt.text);
+								//gerer erreur SQLError: 'Error #3115: SQL Error.', details:'near '101': syntax error', operation:'execute', detailID:'2003'
+								stmt.execute();
+								
+							}
 						}//if
 						else
 						{							
@@ -559,7 +578,7 @@ package fr.batchass
 		{
 			var stmt:SQLStatement = SQLStatement(event.target);
 			var result:SQLResult = stmt.getResult();
-			acCommunes = new ArrayList();	
+			//acCommunes = new ArrayList();	
 			if (result.data)
 			{
 				var numResults:int = result.data.length;
@@ -591,7 +610,7 @@ package fr.batchass
 		{
 			var stmt:SQLStatement = SQLStatement(event.target);
 			var result:SQLResult = stmt.getResult();
-			acNomVoies = new ArrayList();	
+			//acNomVoies = new ArrayList();	
 			if (result.data)
 			{
 				var numResults:int = result.data.length;
@@ -601,7 +620,7 @@ package fr.batchass
 					var row:Object = result.data[i];
 					var rivoli:String = row.code_rivoli;
 					var voie:String = row.nom_voie;
-					if ( rivoli.length > 0 && voie.length>0 ) acCommunes.addItem({nomvoie: voie,code_rivoli: rivoli});
+					if ( rivoli.length > 0 && voie.length>0 ) acNomVoies.addItem({nomvoie: voie,code_rivoli: rivoli});
 					
 				}
 			}	

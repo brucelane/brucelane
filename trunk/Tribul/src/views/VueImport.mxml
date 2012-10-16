@@ -14,6 +14,7 @@
 			import spark.events.ViewNavigatorEvent;
 			
 			private var db:Database;	
+			public var cheminBase:String;
 			
 			protected function retour_clickHandler(event:MouseEvent):void
 			{
@@ -37,12 +38,53 @@
 				db.creeTables(false);
 			}
 			
+			protected function importCommunes_clickHandler(event:MouseEvent):void
+			{
+				var file:File = new File(db.cheminBase);
+				file.browseForOpen('Choisissez un fichier csv à importer.');
+				file.addEventListener(Event.SELECT, Communes);
+				file.addEventListener(Event.CANCEL, Annulation);			
+			}
+			
+			protected function importVoies_clickHandler(event:MouseEvent):void
+			{
+				var file:File = new File(db.cheminBase);
+				file.browseForOpen('Choisissez un fichier csv à importer.');
+				file.addEventListener(Event.SELECT, Voies);
+				file.addEventListener(Event.CANCEL, Annulation);			
+			}
+			
+			private function Communes(event:Event):void {
+				if (event.type === Event.SELECT)
+				{
+					var file:File = event.currentTarget as File;
+					db.importCsv("communes", file.nativePath);
+				} 
+			}
+			private function Voies(event:Event):void {
+				if (event.type === Event.SELECT)
+				{
+					var file:File = event.currentTarget as File;
+					db.importCsv("voies", file.nativePath);
+				} 
+			}
+			private function Annulation(event:Event):void {
+				if (event.type === Event.CANCEL) 
+				{
+					var file:File = event.currentTarget as File;
+					Util.log("Problème ouverture: " + file.nativePath + "\n");
+				}
+			}
+			
+			
 		]]>
 	</fx:Script>
 	
 <s:VGroup>
 	<s:TextArea id="txt" skinClass="spark.skins.mobile.TextInputSkin" x="27" y="260" width="280" height="300"/>
 	<s:Button id="verif" label="Verifier tables" click="verif_clickHandler(event)" />
+	<s:Button id="importCommunes" label="Importer communes" click="importCommunes_clickHandler(event)" />
+	<s:Button id="importVoies" label="Importer voies" click="importVoies_clickHandler(event)" />
 	<s:Button id="retour" label="Retour" click="retour_clickHandler(event)" />
 </s:VGroup>
 </s:View>
