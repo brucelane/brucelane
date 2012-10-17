@@ -34,8 +34,8 @@ protected function spinCommune_changeHandler(event:IndexChangeEvent):void
 {
 	if (event.currentTarget.selectedItem)
 	{
-		txt.text = "Commune: " + event.currentTarget.selectedItem.commune + " code:" + event.currentTarget.selectedItem.code;
-		code = event.currentTarget.selectedItem.code;
+		txt.text = "Commune: " + event.currentTarget.selectedItem.commune + " code:" + event.currentTarget.selectedItem.code_insee;
+		code = event.currentTarget.selectedItem.code_insee;
 	}
 }
 

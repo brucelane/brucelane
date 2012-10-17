@@ -11,7 +11,7 @@
 		<s:SpinnerListContainer id="spinNomVoies" x="27" y="17" width="280" height="200">
 			<s:SpinnerList id="spinNomVoie" width="280" height="100%"
 						   change="spinNomVoie_changeHandler(event)" 
-						   labelField="NomVoie" dataProvider="{nomVoies}" selectedIndex="1">
+						   labelField="nomvoie" dataProvider="{nomVoies}" selectedIndex="1">
 				
 			</s:SpinnerList>
 		</s:SpinnerListContainer>

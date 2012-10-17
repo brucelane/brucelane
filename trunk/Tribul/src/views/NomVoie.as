@@ -19,13 +19,12 @@ private var code_insee:String;
 
 protected function NomVoie_viewActivateHandler(event:ViewNavigatorEvent):void
 {
-	code_insee = event.target.data;
-	
+	code_insee =  new String(event.target.data);
+	db.addEventListener( DonneesEvent.ON_NOMVOIES, bindNomVoies );
+	db.getNomVoies(code_insee);
 }
 protected function NomVoie_creationCompleteHandler(event:FlexEvent):void
 {
-	db.addEventListener( DonneesEvent.ON_NOMVOIES, bindNomVoies );
-	db.getNomVoies(code_insee);
 
 }
 

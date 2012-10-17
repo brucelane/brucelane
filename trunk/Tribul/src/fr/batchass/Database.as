@@ -12,6 +12,7 @@ package fr.batchass
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.net.Responder;
+	import flash.text.ReturnKeyLabel;
 	import flash.utils.Dictionary;
 	
 	import fr.batchass.*;
@@ -30,9 +31,11 @@ package fr.batchass
 		private var _acNomVoies:ArrayList = new ArrayList();
 
 		private var defaultDbXmlPath:String = 'config' + File.separator + 'db.xml';
+		private var dbXmlFile:File;
 		public var cheminBase:String;
 		private static var DB_XML:XML;
 		private static var champsDictionary:Dictionary = new Dictionary();
+		private static var tableXmlDictionary:Dictionary = new Dictionary();
 
 		//constructeur
 		public function Database()
@@ -156,12 +159,13 @@ package fr.batchass
 		private function baseOuverte( event:SQLEvent ):void
 		{
 			Util.log("baseOuverte" );	
+			chargeTablesXml();
 			dispatchEvent( new DonneesEvent(DonneesEvent.ON_OPEN,"") )				
-		}				
-		public function creeTables(suppression:Boolean):void
+		}		
+		public function chargeTablesXml():Boolean
 		{
-			Util.log( "creeTables: " + defaultDbXmlPath + " suppression: " + suppression );
-			var dbXmlFile:File = File.applicationStorageDirectory.resolvePath( defaultDbXmlPath );
+			var exists:Boolean = false;
+			dbXmlFile = File.applicationStorageDirectory.resolvePath( defaultDbXmlPath );
 			
 			if ( !dbXmlFile.exists )
 			{
@@ -186,10 +190,25 @@ package fr.batchass
 			}
 			if ( dbXmlFile.exists )
 			{
+				exists = true;
 				Util.log( "db.xml existe, chargement fichier xml" );
 				DB_XML = new XML( readTextFile( dbXmlFile ) );
 				var tableListe:XMLList = DB_XML..table as XMLList;
 				for each ( var table:XML in tableListe )
+				{
+					var nom:String = table.@nom;
+					tableXmlDictionary[nom] = table;
+				} //for
+			}
+			return exists;
+		}
+		public function creeTables(suppression:Boolean):void
+		{
+			Util.log( "creeTables: " + defaultDbXmlPath + " suppression: " + suppression );
+			
+			if ( chargeTablesXml() )
+			{
+				for each ( var table:XML in tableXmlDictionary )
 				{
 					var nom:String = table.@nom;
 					if ( suppression )
@@ -321,6 +340,35 @@ package fr.batchass
 
 			creeTable( tableXML );
 		}
+		private function identifieChamps( nomTable:String ):Boolean
+		{
+			var rtn:Boolean = false;
+			var table:XML = tableXmlDictionary[nomTable];
+			var champsAcreer:Array = new Array();// "commune",etc	
+			var champListe:XMLList = table..champ as XMLList;
+			for each ( var champ:XML in champListe )
+			{
+				rtn = true;
+				var nomChamp:String = champ.@nom.toString();
+				var cleChamp:String = champ.@cle.toString();
+				switch ( cleChamp )
+				{
+					case "PK":
+						champsAcreer.push(nomChamp);
+						break;
+					case "PKAI":
+						break;
+					case "FK":
+						champsAcreer.push(nomChamp);
+						break;
+					default:
+						champsAcreer.push(nomChamp);
+						break;
+				}
+			}//for
+			champsDictionary[nomTable] = champsAcreer;
+			return rtn;
+		}
 		private function creeTable( table:XML ):void
 		{
 			Util.log("creeTable" );	
@@ -388,162 +436,168 @@ package fr.batchass
 		}
 		public function importCsv(nomTable:String, cheminFichier:String):void
 		{
-			var tableauChamps:Array = champsDictionary[nomTable];
-
-			//var csvFile:String = cheminBase + File.separator + nomTable + ".csv";
-			var csvFile:String = cheminFichier;
-			var csv:File = File.applicationStorageDirectory.resolvePath(csvFile);
-			Util.log("ImportCsv: " + csvFile );					
-			if (!csv.exists)
+			if (identifieChamps(nomTable))
 			{
-				//copie à partir du dossier progFiles
-				var sourceFile:File = File.applicationDirectory.resolvePath(csvFile);
-				Util.log("ImportCsv, fichier inexistant on copie à partir de: " + sourceFile.nativePath );					
-				sourceFile.addEventListener( IOErrorEvent.IO_ERROR, ioErrorHandler );
-				sourceFile.addEventListener( SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler );
-				try 
+				var tableauChamps:Array = champsDictionary[nomTable];
+	
+				//var csvFile:String = cheminBase + File.separator + nomTable + ".csv";
+				var csvFile:String = cheminFichier;
+				var csv:File = File.applicationStorageDirectory.resolvePath(csvFile);
+				Util.log("ImportCsv: " + csvFile );					
+				if (!csv.exists)
 				{
-					sourceFile.copyTo( csv );
-				}
-				catch (error:Error)
-				{
-					Util.log( "copyCsv Error:" + error.message );
-				}
-			}
-			if (csv.exists)
-			{
-				var importFile:File = File.applicationStorageDirectory.resolvePath( csvFile );
-				var contenu:String = readTextFile(importFile); 
-				var lignes:Array = contenu.split( "\r\n" );
-				var numerosChampsTrouves:Array = new Array();
-				var champsTrouves:Boolean = false;
-				var premiereValeur:Boolean = true;
-				var insertChamps:String = "";
-				var insertValeurs:String = "";
-				var nombreChamps:int=0;
-				var ordre_ref_bosch_fk:int = -1;
-				var cmn:String = "";
-				Util.log("ImportCsv, nombre de lignes: " + lignes.length );					
-				for each (var ligne:String in lignes)
-				{					
-					var champs:Array = ligne.split( ";" );
-					if (!champsTrouves)
-					{				
-						var ordre:int = 0;
-						//1e ligne contient noms des champs
-						for each (var champ:String in champs)
-						{
-							//creer tableau des ordres
-							if (tableauChamps.indexOf(champ)>-1)
-							{
-								//if ( nomChampNumerique.length > 0 ) ordre_ref_bosch_fk = ordre;
-								numerosChampsTrouves.push(ordre++);
-								nombreChamps++;
-								if (!champsTrouves)
-								{
-									insertChamps += champ;
-									champsTrouves = true;							
-								}
-								else
-								{
-									insertChamps += "," + champ;							
-								}							
-							}
-							else
-							{
-								if (champ.length>0)
-								{
-									Util.log("champ inconnu: " + champ);
-									ordre++;								
-								}
-							}
-						}//for
-						Util.log("ImportCsv, champs 1e ligne: " + insertChamps );					
-					}
-					else
+					//copie à partir du dossier progFiles
+					var sourceFile:File = File.applicationDirectory.resolvePath(csvFile);
+					Util.log("ImportCsv, fichier inexistant on copie à partir de: " + sourceFile.nativePath );					
+					sourceFile.addEventListener( IOErrorEvent.IO_ERROR, ioErrorHandler );
+					sourceFile.addEventListener( SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler );
+					try 
 					{
-						// ce sont des donnees
-						var ordreValeur:int = 0;
-						var nombreValeurs:int = 0;
-						var code_insee:String = "";
-
-						premiereValeur = true;
-						insertValeurs = "";
-						for each (var valeur:String in champs)
-						{
-							if ( numerosChampsTrouves.indexOf(ordreValeur)>-1)
+						sourceFile.copyTo( csv );
+					}
+					catch (error:Error)
+					{
+						Util.log( "copyCsv Error:" + error.message );
+					}
+				}
+				if (csv.exists)
+				{
+					var importFile:File = File.applicationStorageDirectory.resolvePath( csvFile );
+					var contenu:String = readTextFile(importFile); 
+					var lignes:Array = contenu.split( "\r\n" );
+					var numerosChampsTrouves:Array = new Array();
+					var champsTrouves:Boolean = false;
+					var premiereValeur:Boolean = true;
+					var insertChamps:String = "";
+					var insertValeurs:String = "";
+					var nombreChamps:int=0;
+					var ordre_ref_bosch_fk:int = -1;
+					var cmn:String = "";
+					Util.log("ImportCsv, nombre de lignes: " + lignes.length );					
+					for each (var ligne:String in lignes)
+					{					
+						var champs:Array = ligne.split( ";" );
+						if (!champsTrouves)
+						{				
+							var ordre:int = 0;
+							//1e ligne contient noms des champs
+							for each (var champ:String in champs)
 							{
-								if (premiereValeur)
+								//creer tableau des ordres
+								if (tableauChamps.indexOf(champ)>-1)
 								{
-									premiereValeur = false;								
+									//if ( nomChampNumerique.length > 0 ) ordre_ref_bosch_fk = ordre;
+									numerosChampsTrouves.push(ordre++);
+									nombreChamps++;
+									if (!champsTrouves)
+									{
+										insertChamps += champ;
+										champsTrouves = true;							
+									}
+									else
+									{
+										insertChamps += "," + champ;							
+									}							
 								}
 								else
 								{
-									insertValeurs += ",";	
+									if (champ.length>0)
+									{
+										Util.log("champ inconnu: " + champ);
+										ordre++;								
+									}
 								}
-							/*
-							<table nom="voies">
-							<champ nom="code_rivoli" cle="PK" />
-							<champ nom="nom_voie" />
-							<champ nom="code_insee_commune" cle="FK" cle_etrangere="communes(code_insee)" />
-							</table>
-							*/
-								if (nomTable == "communes"  && ordreValeur ==0)
-								{
-									cmn = valeur;
-								}
-								if (nomTable == "communes"  && valeur.substr(0, 2) == "06")
-								{
-									code_insee = valeur.substr(0, 5);
-								}
-								if (nomTable == "voies"  && valeur.substr(0, 2) == "06")
-								{
-									code_insee = valeur.substr(0, 5);
-								}
-								if (nomTable == "voies"  && nombreValeurs == 2)
-								{
-									valeur = code_insee;
-								}
-								insertValeurs += '"' + valeur + '"';	
-								
-								nombreValeurs++;
-							}
-							
-							ordreValeur++;	
-						}//for
-						if ( nombreChamps == nombreValeurs )
+							}//for
+							Util.log("ImportCsv, champs 1e ligne: " + insertChamps );					
+						}
+						else
 						{
-							var trouve:Boolean = false;
-							for each (var acItem:Object in acCommunes)
+							// ce sont des donnees
+							var ordreValeur:int = 0;
+							var nombreValeurs:int = 0;
+							var code_insee:String = "";
+	
+							premiereValeur = true;
+							insertValeurs = "";
+							for each (var valeur:String in champs)
 							{
-								if (acItem.code_insee == code_insee) trouve = true;
-							}
-							if (!trouve)
-							{
-								if ( cmn.length > 0 && code_insee.length>0 ) acCommunes.addItem({commune: cmn,code_insee: code_insee});
-								var stmt:SQLStatement = new SQLStatement();
-								//stmt.addEventListener( SQLEvent.RESULT, insere );
-								stmt.addEventListener( SQLErrorEvent.ERROR, errorHandler );
-								stmt.sqlConnection = sqlAsyncConn;
-								stmt.text =
-										"INSERT INTO "+ nomTable + " (" + 
-										insertChamps +
-										") VALUES (" + 
-										insertValeurs +
-										")";
-														
-								Util.log("insert: "+stmt.text);
-								//gerer erreur SQLError: 'Error #3115: SQL Error.', details:'near '101': syntax error', operation:'execute', detailID:'2003'
-								stmt.execute();
+								if ( numerosChampsTrouves.indexOf(ordreValeur)>-1)
+								{
+									if (premiereValeur)
+									{
+										premiereValeur = false;								
+									}
+									else
+									{
+										insertValeurs += ",";	
+									}
+								/*
+								<table nom="voies">
+								<champ nom="code_rivoli" cle="PK" />
+								<champ nom="nom_voie" />
+								<champ nom="code_insee_commune" cle="FK" cle_etrangere="communes(code_insee)" />
+								</table>
+								*/
+									if (nomTable == "communes"  && ordreValeur ==0)
+									{
+										cmn = valeur;
+									}
+									if (nomTable == "communes"  && valeur.substr(0, 2) == "06")
+									{
+										code_insee = valeur.substr(0, 5);
+									}
+									if (nomTable == "voies"  && valeur.substr(0, 2) == "06")
+									{
+										code_insee = valeur.substr(0, 5);
+									}
+									if (nomTable == "voies"  && nombreValeurs == 2)
+									{
+										valeur = code_insee;
+									}
+									insertValeurs += '"' + valeur + '"';	
+									
+									nombreValeurs++;
+								}
 								
+								ordreValeur++;	
+							}//for
+							if ( nombreChamps == nombreValeurs )
+							{
+								var trouve:Boolean = false;
+								if (nomTable == "communes")
+								{
+									for each (var acItem:Object in acCommunes)
+									{
+										if (acItem.code_insee == code_insee) trouve = true;
+									}
+								}
+								if (!trouve)
+								{
+									if ( cmn.length > 0 && code_insee.length>0 ) acCommunes.addItem({commune: cmn,code_insee: code_insee});
+									var stmt:SQLStatement = new SQLStatement();
+									//stmt.addEventListener( SQLEvent.RESULT, insere );
+									stmt.addEventListener( SQLErrorEvent.ERROR, errorHandler );
+									stmt.sqlConnection = sqlAsyncConn;
+									stmt.text =
+											"INSERT INTO "+ nomTable + " (" + 
+											insertChamps +
+											") VALUES (" + 
+											insertValeurs +
+											")";
+															
+									Util.log("insert: "+stmt.text);
+									//gerer erreur SQLError: 'Error #3115: SQL Error.', details:'near '101': syntax error', operation:'execute', detailID:'2003'
+									stmt.execute();
+									
+								}
+							}//if
+							else
+							{							
+								Util.log("ImportCsv, nombreChamps != nombreValeurs , c= " + nombreChamps + " v=" + nombreValeurs);	
 							}
 						}//if
-						else
-						{							
-							Util.log("ImportCsv, nombreChamps != nombreValeurs , c= " + nombreChamps + " v=" + nombreValeurs);	
-						}
-					}//if
-				}//for each ligne				
+					}//for each ligne				
+				}			
 			}
 		}
 
@@ -602,7 +656,7 @@ package fr.batchass
 			stmt.addEventListener( SQLEvent.RESULT, remplitNomVoies );
 			stmt.addEventListener( SQLErrorEvent.ERROR, errorHandler );
 			stmt.sqlConnection = sqlAsyncConn;
-			stmt.text = 'SELECT * FROM voies ORDER BY nom_voie WHERE code_insee_commune=' + code_insee;
+			stmt.text = 'SELECT * FROM voies WHERE code_insee_commune="' + code_insee + '" ORDER BY nom_voie';
 
 			stmt.execute();
 		}	

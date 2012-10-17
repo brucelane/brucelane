@@ -81,7 +81,7 @@
 	</fx:Script>
 	
 <s:VGroup>
-	<s:TextArea id="txt" skinClass="spark.skins.mobile.TextInputSkin" x="27" y="260" width="280" height="300"/>
+	<s:TextArea id="txt" skinClass="spark.skins.mobile.TextInputSkin" x="27" y="260" width="280" height="100"/>
 	<s:Button id="verif" label="Verifier tables" click="verif_clickHandler(event)" />
 	<s:Button id="importCommunes" label="Importer communes" click="importCommunes_clickHandler(event)" />
 	<s:Button id="importVoies" label="Importer voies" click="importVoies_clickHandler(event)" />
