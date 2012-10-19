@@ -434,6 +434,8 @@ package fr.batchass
 
 			//importCsv( nomTable );				
 		}
+		// importCsv
+		// d'abord remplir arrayList avec la base de données (acCommunes) pour éviter inserts inutiles
 		public function importCsv(nomTable:String, cheminFichier:String):void
 		{
 			if (identifieChamps(nomTable))
@@ -471,7 +473,7 @@ package fr.batchass
 					var insertChamps:String = "";
 					var insertValeurs:String = "";
 					var nombreChamps:int=0;
-					var ordre_ref_bosch_fk:int = -1;
+					var ordreCommune:int = 0;
 					var cmn:String = "";
 					Util.log("ImportCsv, nombre de lignes: " + lignes.length );					
 					for each (var ligne:String in lignes)
@@ -486,7 +488,10 @@ package fr.batchass
 								//creer tableau des ordres
 								if (tableauChamps.indexOf(champ)>-1)
 								{
-									//if ( nomChampNumerique.length > 0 ) ordre_ref_bosch_fk = ordre;
+									if ( champ == "commune")
+									{
+										ordreCommune = ordre;
+									}
 									numerosChampsTrouves.push(ordre++);
 									nombreChamps++;
 									if (!champsTrouves)
@@ -531,14 +536,8 @@ package fr.batchass
 									{
 										insertValeurs += ",";	
 									}
-								/*
-								<table nom="voies">
-								<champ nom="code_rivoli" cle="PK" />
-								<champ nom="nom_voie" />
-								<champ nom="code_insee_commune" cle="FK" cle_etrangere="communes(code_insee)" />
-								</table>
-								*/
-									if (nomTable == "communes"  && ordreValeur ==0)
+								
+									if (nomTable == "communes"  && ordreValeur == ordreCommune)
 									{
 										cmn = valeur;
 									}
@@ -566,16 +565,19 @@ package fr.batchass
 								var trouve:Boolean = false;
 								if (nomTable == "communes")
 								{
-									for each (var acItem:Object in acCommunes)
+									for (var i:int=0; i<acCommunes.length; i++)
 									{
-										if (acItem.code_insee == code_insee) trouve = true;
+										var o:Object = (acCommunes.getItemAt(i) as Object);
+										if (o.code_insee == code_insee)
+										{
+											trouve = true;
+										}
 									}
 								}
 								if (!trouve)
 								{
 									if ( cmn.length > 0 && code_insee.length>0 ) acCommunes.addItem({commune: cmn,code_insee: code_insee});
 									var stmt:SQLStatement = new SQLStatement();
-									//stmt.addEventListener( SQLEvent.RESULT, insere );
 									stmt.addEventListener( SQLErrorEvent.ERROR, errorHandler );
 									stmt.sqlConnection = sqlAsyncConn;
 									stmt.text =
@@ -587,8 +589,7 @@ package fr.batchass
 															
 									Util.log("insert: "+stmt.text);
 									//gerer erreur SQLError: 'Error #3115: SQL Error.', details:'near '101': syntax error', operation:'execute', detailID:'2003'
-									stmt.execute();
-									
+									stmt.execute();								
 								}
 							}//if
 							else
@@ -632,7 +633,6 @@ package fr.batchass
 		{
 			var stmt:SQLStatement = SQLStatement(event.target);
 			var result:SQLResult = stmt.getResult();
-			//acCommunes = new ArrayList();	
 			if (result.data)
 			{
 				var numResults:int = result.data.length;
@@ -657,14 +657,13 @@ package fr.batchass
 			stmt.addEventListener( SQLErrorEvent.ERROR, errorHandler );
 			stmt.sqlConnection = sqlAsyncConn;
 			stmt.text = 'SELECT * FROM voies WHERE code_insee_commune="' + code_insee + '" ORDER BY nom_voie';
-
+			acNomVoies.removeAll();
 			stmt.execute();
 		}	
 		private function remplitNomVoies( event:SQLEvent ):void
 		{
 			var stmt:SQLStatement = SQLStatement(event.target);
 			var result:SQLResult = stmt.getResult();
-			//acNomVoies = new ArrayList();	
 			if (result.data)
 			{
 				var numResults:int = result.data.length;

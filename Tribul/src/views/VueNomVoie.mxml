@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:components="com.hillelcoren.components.*"
 		viewActivate="NomVoie_viewActivateHandler(event)"
 		creationComplete="NomVoie_creationCompleteHandler(event)"
 		title="Nom de la voie">
+	<fx:Script>
+		<![CDATA[
+			
+			
+		]]>
+	</fx:Script>
 	
 	<fx:Script source="NomVoie.as" />
 	
@@ -16,8 +23,8 @@
 			</s:SpinnerList>
 		</s:SpinnerListContainer>
 		
-		<s:TextArea id="txt" skinClass="spark.skins.mobile.TextInputSkin" x="27" y="260" width="280" height="181"/>
-		<!--<s:Button id="ajout" label="Ajout NomVoie"  click="Ajout_clickHandler(event)" />-->
+		<s:TextArea id="txt" skinClass="spark.skins.mobile.TextInputSkin" x="27" y="260" width="280" height="80"/>
+		<s:TextInput id="terme"  skinClass="spark.skins.mobile.TextInputSkin" width="280" height="81" change="terme_changeHandler(event)" />
 		<s:Button id="valider" label="Valider"  click="valider_clickHandler(event)" />
 	</s:VGroup>
 </s:View>
