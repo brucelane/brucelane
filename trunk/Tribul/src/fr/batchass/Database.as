@@ -29,6 +29,7 @@ package fr.batchass
 		private var sqlFile:File;
 		private var _acCommunes:ArrayList = new ArrayList();
 		private var _acNomVoies:ArrayList = new ArrayList();
+		private var _acNumerosVoie:ArrayList = new ArrayList();
 
 		private var defaultDbXmlPath:String = 'config' + File.separator + 'db.xml';
 		private var dbXmlFile:File;
@@ -680,6 +681,37 @@ package fr.batchass
 			dispatchEvent( new Event(Event.COMPLETE) );							
 			dispatchEvent( new DonneesEvent(DonneesEvent.ON_NOMVOIES, acNomVoies) );
 		}
+		//numeros voie
+		public function getNumerosVoie( rivoli:String ):void
+		{
+			var stmt:SQLStatement = new SQLStatement();
+			stmt.addEventListener( SQLEvent.RESULT, remplitNumerosVoie );
+			stmt.addEventListener( SQLErrorEvent.ERROR, errorHandler );
+			stmt.sqlConnection = sqlAsyncConn;
+			stmt.text = 'SELECT * FROM numerosvoie WHERE rivoli="' + rivoli + '" ORDER BY numero';
+			acNumerosVoie.removeAll();
+			stmt.execute();
+		}	
+		private function remplitNumerosVoie( event:SQLEvent ):void
+		{
+			var stmt:SQLStatement = SQLStatement(event.target);
+			var result:SQLResult = stmt.getResult();
+			if (result.data)
+			{
+				var numResults:int = result.data.length;
+				Util.log('remplitNumerosVoie, nb: ' + numResults.toString() );
+				for (var i:int = 0; i < numResults; i++)
+				{
+					var row:Object = result.data[i];
+					var numero:String = row.numero;
+					var complement:String = row.complement;
+					if ( numero.length > 0 && complement.length>0 ) acNumerosVoie.addItem({numero: numero,complement: complement});
+					
+				}
+			}	
+			dispatchEvent( new Event(Event.COMPLETE) );							
+			dispatchEvent( new DonneesEvent(DonneesEvent.ON_NUMEROVOIE, acNumerosVoie) );
+		}
 
 
 		public static function getInstance():Database
@@ -750,6 +782,17 @@ package fr.batchass
 		public function set acNomVoies(value:ArrayList):void
 		{
 			_acNomVoies = value;
+		}
+
+		[Bindable]
+		public function get acNumerosVoie():ArrayList
+		{
+			return _acNumerosVoie;
+		}
+
+		public function set acNumerosVoie(value:ArrayList):void
+		{
+			_acNumerosVoie = value;
 		}
 
 

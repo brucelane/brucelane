@@ -3,14 +3,7 @@
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:components="com.hillelcoren.components.*"
 		viewActivate="NomVoie_viewActivateHandler(event)"
-		creationComplete="NomVoie_creationCompleteHandler(event)"
 		title="Nom de la voie">
-	<fx:Script>
-		<![CDATA[
-			
-			
-		]]>
-	</fx:Script>
 	
 	<fx:Script source="NomVoie.as" />
 	
