@@ -9,6 +9,7 @@ package events
 		// event constants
 		public static const ON_COMMUNES:String = "onCommunes";
 		public static const ON_NOMVOIES:String = "onNomVoies";
+		public static const ON_NUMEROVOIE:String = "onNumeroVoie";
 		public static const ON_OPEN:String = "onOpen";
 
 		

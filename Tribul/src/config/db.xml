@@ -8,4 +8,9 @@
       <champ nom="nom_voie" />
       <champ nom="code_insee_commune" cle="FK" cle_etrangere="communes(code_insee)" />
   </table>
+   <table nom="numerosvoie">
+      <champ nom="code_numero" cle="PK" />
+      <champ nom="complement" />
+      <champ nom="code_rivoli_voie" cle="FK" cle_etrangere="voies(code_rivoli)" />
+  </table>
 </tables>
