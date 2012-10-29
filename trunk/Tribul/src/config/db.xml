@@ -11,6 +11,8 @@
    <table nom="numerosvoie">
       <champ nom="code_numero" cle="PK" />
       <champ nom="complement" />
-      <champ nom="code_rivoli_voie" cle="FK" cle_etrangere="voies(code_rivoli)" />
+      <champ nom="x_wgs84" />
+      <champ nom="y_wgs84" />
+      <champ nom="code_rivoli_voie" cle="PKFK" cle_etrangere="voies(code_rivoli)" />
   </table>
 </tables>

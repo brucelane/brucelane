@@ -221,37 +221,7 @@ package fr.batchass
 				} //for
 			}
 		}
-		/* marche pas
-		public function tables_master():void
-		{
-			Util.log( "tables_master" );	
-			var st:SQLStatement = new SQLStatement();
-			st.addEventListener( SQLEvent.RESULT, master );
-			st.sqlConnection = sqlAsyncConn;
-			st.text = "SELECT name FROM sqlite_master WHERE type='table'";	
-			st.execute();
-		}
-		private function master( event:SQLEvent ):void
-		{
-			var st:SQLStatement = SQLStatement(event.target);
-			var result:SQLResult = st.getResult();
-			st.removeEventListener( SQLEvent.RESULT, master );
-			if (result.data)
-			{
-				var numResults:int = result.data.length;
-				var names:String = "";
-				Util.log('master, nb: ' + numResults.toString() );
-				for (var i:int = 0; i < numResults; i++)
-				{
-					var row:Object = result.data[i];
-					var name:String = row.name;
-					names += name + "\n"
-					Util.log( "Table:" + name );
-				}
-				dispatchEvent( new DonneesEvent(DonneesEvent.ON_MASTER, names) );
-
-			}
-		}*/
+		
 		private function verifieExistenceTable(nomTable:String, table:XML):void
 		{
 			Util.log( "verifieExistenceTable" );	
@@ -396,7 +366,12 @@ package fr.batchass
 				{
 					case "PK":
 						champsAcreer.push(nomChamp);
-						statement += nomChamp + " TEXT PRIMARY KEY ON CONFLICT REPLACE ";
+						statement += nomChamp + " TEXT NOT NULL ";
+						if ( clesPrimaires.length > 0)
+						{
+							clesPrimaires += ",";
+						}
+						clesPrimaires += nomChamp;
 					break;
 					case "PKAI":
 						statement += nomChamp + " INTEGER PRIMARY KEY AUTOINCREMENT ";
@@ -404,6 +379,16 @@ package fr.batchass
 					case "FK":
 						champsAcreer.push(nomChamp);
 						statement += nomChamp + " TEXT ";
+						clesEtrangeres += ", FOREIGN KEY(" + nomChamp + ") REFERENCES " + cleEtrangereChamp; 
+					break;
+					case "PKFK":
+						champsAcreer.push(nomChamp);
+						statement += nomChamp + " TEXT NON NULL";
+						if ( clesPrimaires.length > 0)
+						{
+							clesPrimaires += ",";
+						}
+						clesPrimaires += nomChamp;
 						clesEtrangeres += ", FOREIGN KEY(" + nomChamp + ") REFERENCES " + cleEtrangereChamp; 
 					break;
 					default:
@@ -415,7 +400,10 @@ package fr.batchass
 			champsDictionary[nomTable] = champsAcreer;
 			
 			statement += clesEtrangeres;
-			statement += clesPrimaires;
+			if ( clesPrimaires.length > 0)
+			{
+				statement += ", PRIMARY KEY (" + clesPrimaires + ")";
+			}
 			statement += ") --";
 			statement += nomTable;
 			Util.log( "SQL creation table: " + statement );
