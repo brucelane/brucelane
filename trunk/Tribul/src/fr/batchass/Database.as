@@ -201,6 +201,11 @@ package fr.batchass
 					tableXmlDictionary[nom] = table;
 				} //for
 			}
+			//Enable FOREIGN_KEYS not supported in as3... 
+			/*var st:SQLStatement = new SQLStatement();
+			st.sqlConnection = sqlAsyncConn;
+			st.text = "PRAGMA foreign_keys=ON";	
+			st.execute();*/
 			return exists;
 		}
 		public function creeTables(suppression:Boolean):void

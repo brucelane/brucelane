@@ -6,7 +6,7 @@
   <table nom="voies">
       <champ nom="code_rivoli" cle="PK" />
       <champ nom="nom_voie" />
-      <champ nom="code_insee_commune" cle="FK" cle_etrangere="communes(code_insee)" />
+      <champ nom="code_insee_commune" cle="PKFK" cle_etrangere="communes(code_insee)" />
   </table>
    <table nom="numerosvoie">
       <champ nom="code_numero" cle="PK" />
