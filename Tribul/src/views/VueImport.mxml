@@ -53,6 +53,13 @@
 				file.addEventListener(Event.SELECT, Voies);
 				file.addEventListener(Event.CANCEL, Annulation);			
 			}
+			protected function importNumerosVoie_clickHandler(event:MouseEvent):void
+			{
+				var file:File = new File(db.cheminBase);
+				file.browseForOpen('Choisissez un fichier csv à importer.');
+				file.addEventListener(Event.SELECT, NumerosVoie);
+				file.addEventListener(Event.CANCEL, Annulation);			
+			}
 			
 			private function Communes(event:Event):void {
 				if (event.type === Event.SELECT)
@@ -66,6 +73,13 @@
 				{
 					var file:File = event.currentTarget as File;
 					db.importCsv("voies", file.nativePath);
+				} 
+			}
+			private function NumerosVoie(event:Event):void {
+				if (event.type === Event.SELECT)
+				{
+					var file:File = event.currentTarget as File;
+					db.importCsv("numerosvoie", file.nativePath);
 				} 
 			}
 			private function Annulation(event:Event):void {
@@ -85,6 +99,7 @@
 	<s:Button id="verif" label="Verifier tables" click="verif_clickHandler(event)" />
 	<s:Button id="importCommunes" label="Importer communes" click="importCommunes_clickHandler(event)" />
 	<s:Button id="importVoies" label="Importer voies" click="importVoies_clickHandler(event)" />
+	<s:Button id="importNumerosVoie" label="Importer numéros voie" click="importNumerosVoie_clickHandler(event)" />
 	<s:Button id="retour" label="Retour" click="retour_clickHandler(event)" />
 </s:VGroup>
 </s:View>
